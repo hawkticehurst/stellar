@@ -36,9 +36,6 @@ Todo...
 
 ## Docs
 
-- [Getting started](./docs/getting-started.md)
-- [Custom elements 101](./docs/custom-elements-101.md)
-- [Lifecycle methods](./docs/lifecycle-methods.md)
 - [Event handling](./docs/event-handling.md)
 - [Reactivity](./docs/reactivity.md)
 
