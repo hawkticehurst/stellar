@@ -17,7 +17,8 @@
   },
   "scripts": {
     "build": "tsc -p ./tsconfig.json",
-    "fmt": "prettier --write \"**/*.{ts,js,md,html,css,json}\""
+    "fmt": "prettier --write \"**/*.{ts,js,md,html,css,json}\"",
+    "prepublishOnly": "npm run build"
   },
   "devDependencies": {
     "prettier": "^3.0.3",
