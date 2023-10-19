@@ -119,7 +119,7 @@ It is recommended that you scope your state to be as small as possible. In pract
 If for whatever reason you can't or don't want to rely on auto-initialization of state based on the text content of a stateful element, you can always manually initialize the state in the `constructor` method of any Stellar component.
 
 > [!WARNING]
-> This method of initializing state will cause layout shift issues since the initially rendered reactive HTML will not contain any content until JavaScript is parsed and executed.
+> This method of initializing state runs the risk of causing visual instability and layout issues since the initially rendered reactive HTML will not contain any content until JavaScript is parsed and executed.
 
 ```html
 <counter-button>
