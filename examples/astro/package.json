@@ -11,7 +11,8 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^3.3.2"
+    "astro": "^3.3.2",
+    "stellar-element": "^0.1.0"
   },
   "devDependencies": {
     "prettier": "^3.0.3",

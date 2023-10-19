@@ -12,7 +12,7 @@ const { count = 0 } = Astro.props;
 </counter-button>
 
 <script>
-	import { Stellar } from '../../../../index';
+	import { Stellar } from 'stellar-element';
 	class CounterButton extends Stellar {
 		declare count: number;
 		increment = () => this.count++;
