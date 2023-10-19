@@ -68,7 +68,7 @@
       <p>Bound to count state: <span $bind="count">0</span></p>
     </bound-values>
     <script type="module">
-      import { Stellar } from '../../build/index.js';
+      import { Stellar } from 'https://www.unpkg.com/stellar-element@0.1.0/build/index.js';
       class BoundValues extends Stellar {
         increment = () => this.count++;
       }

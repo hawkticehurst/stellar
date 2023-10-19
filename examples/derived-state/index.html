@@ -44,7 +44,7 @@
       <p>Doubled: <span $derive="double(count)">0</span></p>
     </derived-state>
     <script type="module">
-      import { Stellar } from '../../build/index.js';
+      import { Stellar } from 'https://www.unpkg.com/stellar-element@0.1.0/build/index.js';
       class DerivedState extends Stellar {
         increment = () => this.count++;
         double = (count) => count * 2;

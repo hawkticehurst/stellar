@@ -55,7 +55,7 @@
       <p>Message: <span $state="message"></span></p>
     </message-listener>
     <script type="module">
-      import { Stellar } from '../../build/index.js';
+      import { Stellar } from 'https://www.unpkg.com/stellar-element@0.1.0/build/index.js';
       class DispatchMessage extends Stellar {
         dispatch = (event) => {
           const msgEvent = new CustomEvent('message', {
