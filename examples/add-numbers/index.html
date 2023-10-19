@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Numbers</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: system-ui, sans-serif;
+        font-weight: 500;
+        display: grid;
+        place-content: center;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+      }
+      add-numbers {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      add-numbers > button {
+        font-family: inherit;
+        font-size: inherit;
+        font-weight: inherit;
+        color: black;
+        background-color: #efefef;
+        border: 2px solid #000;
+        border-radius: 8px;
+        padding: 6px 10px;
+        width: fit-content;
+      }
+      add-numbers > button:hover,
+      add-numbers > button:active {
+        cursor: pointer;
+        background-color: #e6e6e6;
+      }
+    </style>
+  </head>
+  <body>
+    <add-numbers>
+      <p>
+        <span $state="expression">1 + 2 + 3 + 4</span> =
+        <span $state="sum">10</span>
+      </p>
+      <button @click="addNumber">Add number</button>
+    </add-numbers>
+    <script type="module">
+      import { Stellar } from '../../build/index.js';
+      class AddNumbers extends Stellar {
+        constructor() {
+          super();
+          this.numbers = [1, 2, 3, 4];
+        }
+        addNumber = () => {
+          this.numbers = [...this.numbers, this.numbers.length + 1];
+          this.expression = this.numbers.join(' + ');
+          this.sum = this.numbers.reduce((sum, current) => sum + current, 0);
+        };
+      }
+      customElements.define('add-numbers', AddNumbers);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dispatch Message</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: system-ui, sans-serif;
+        font-weight: 500;
+        display: flex;
+        display: grid;
+        place-content: center;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+      }
+      dispatch-message > input {
+        font-family: inherit;
+        font-size: inherit;
+        font-weight: inherit;
+        color: black;
+        background-color: #efefef;
+        border: 2px solid #000;
+        border-radius: 6px;
+        padding: 6px 10px;
+      }
+      dispatch-message > button {
+        font-family: inherit;
+        font-size: inherit;
+        font-weight: inherit;
+        color: black;
+        background-color: #efefef;
+        border: 2px solid #000;
+        border-radius: 8px;
+        padding: 6px 10px;
+      }
+      dispatch-message > button:hover,
+      dispatch-message > button:active {
+        cursor: pointer;
+        background-color: #e6e6e6;
+      }
+    </style>
+  </head>
+  <body>
+    <message-listener @message="display">
+      <dispatch-message>
+        <input type="text" $value="message" placeholder="Type a message" />
+        <button @click="dispatch">Dispatch message</button>
+      </dispatch-message>
+      <p>Message: <span $state="message"></span></p>
+    </message-listener>
+    <script type="module">
+      import { Stellar } from '../../build/index.js';
+      class DispatchMessage extends Stellar {
+        dispatch = (event) => {
+          const msgEvent = new CustomEvent('message', {
+            bubbles: true,
+            detail: { message: this.message ?? '' },
+          });
+          event.target.dispatchEvent(msgEvent);
+        };
+      }
+      class MessageListener extends Stellar {
+        display = (event) => (this.message = event.detail.message);
+      }
+      customElements.define('dispatch-message', DispatchMessage);
+      customElements.define('message-listener', MessageListener);
+    </script>
+  </body>
+</html>

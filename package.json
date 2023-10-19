@@ -1,0 +1,45 @@
+{
+  "name": "stellar-element",
+  "description": "A stellar way to build custom elements.",
+  "version": "0.1.0",
+  "author": "Hawk Ticehurst",
+  "license": "MIT",
+  "type": "module",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "homepage": "https://github.com/hawkticehurst/stellar#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hawkticehurst/stellar.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hawkticehurst/stellar/issues"
+  },
+  "scripts": {
+    "build": "tsc -p ./tsconfig.json",
+    "fmt": "prettier --write \"**/*.{ts,js,md,html,css,json}\""
+  },
+  "devDependencies": {
+    "prettier": "^3.0.3",
+    "typescript": "^5.2.2"
+  },
+  "prettier": {
+    "printWidth": 80,
+    "tabWidth": 2,
+    "useTabs": false,
+    "semi": true,
+    "singleQuote": true,
+    "quoteProps": "consistent",
+    "jsxSingleQuote": false,
+    "trailingComma": "es5",
+    "bracketSpacing": true,
+    "bracketSameLine": false,
+    "arrowParens": "always"
+  },
+  "keywords": [
+    "custom elements",
+    "web components",
+    "astro",
+    "components"
+  ]
+}

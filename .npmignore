@@ -1,0 +1,34 @@
+# docs
+docs/
+demos/
+examples/
+
+# source code
+index.ts
+
+# tests
+*.spec.*
+coverage/
+
+# config files
+.vscode
+.github
+.eslintrc.js
+.eslintrc
+.eslintignore
+.prettierrc
+.prettierignore
+babel.config.js
+tsconfig.json
+tsconfig.*.json
+webpack.config.js
+rollup.config.js
+api-extractor.json
+yarn.lock
+target
+package-lock.json
+*.node
+npm
+
+# cache
+temp

@@ -1,0 +1,39 @@
+---
+interface Props {
+	count?: number;
+}
+const { count = 0 } = Astro.props;
+---
+
+<counter-button>
+	<button @click="increment">
+		Clicked <span $state="count">{count}</span> times
+	</button>
+</counter-button>
+
+<script>
+	import { Stellar } from '../../../../index';
+	class CounterButton extends Stellar {
+		declare count: number;
+		increment = () => this.count++;
+	}
+	customElements.define('counter-button', CounterButton);
+</script>
+
+<style>
+	button {
+		font-family: inherit;
+		font-size: inherit;
+		font-weight: inherit;
+		color: black;
+		background-color: #efefef;
+		border: 2px solid #000;
+		border-radius: 8px;
+		padding: 6px 10px;
+	}
+	button:hover,
+	button:active {
+		cursor: pointer;
+		background-color: #e6e6e6;
+	}
+</style>

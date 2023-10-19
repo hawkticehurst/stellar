@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mouse Position</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: system-ui, sans-serif;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+      }
+      mouse-position {
+        background-color: #efefef;
+        border: 2px solid #000;
+        border-radius: 6px;
+        width: 80%;
+        height: 80%;
+        display: grid;
+        place-content: center;
+      }
+    </style>
+  </head>
+  <body>
+    <mouse-position @mousemove="setPosition">
+      <p>
+        The mouse position is <span $state="x">0</span> x
+        <span $state="y">0</span>
+      </p>
+    </mouse-position>
+    <script type="module">
+      import { Stellar } from '../../build/index.js';
+      class MousePosition extends Stellar {
+        constructor() {
+          super();
+          this.clientRect = this.getBoundingClientRect();
+        }
+        setPosition = (event) => {
+          this.x = event.clientX - Number(this.clientRect.left.toFixed(0));
+          this.y = event.clientY - Number(this.clientRect.top.toFixed(0));
+        };
+      }
+      customElements.define('mouse-position', MousePosition);
+    </script>
+  </body>
+</html>

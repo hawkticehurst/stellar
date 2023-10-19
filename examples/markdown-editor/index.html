@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Markdown Editor</title>
+    <style>
+      :root {
+        --border-width: 2px;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      img,
+      picture,
+      video,
+      canvas,
+      svg {
+        display: block;
+        max-width: 100%;
+      }
+      body {
+        font-family: system-ui, Arial, Helvetica, sans-serif;
+        font-weight: 500;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+      }
+      markdown-editor {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        border: var(--border-width) solid #000;
+        border-radius: 6px;
+        padding: 0;
+        width: 80%;
+        height: 60%;
+      }
+      markdown-editor > textarea {
+        resize: none;
+        font-family: monospace;
+        font-size: 1.05rem;
+        font-weight: inherit;
+        color: black;
+        background-color: #efefef;
+        border: none;
+        border-right-style: solid;
+        border-right-width: var(--border-width);
+        border-right-color: #000;
+        border-top-left-radius: 6px;
+        border-bottom-left-radius: 6px;
+        padding: 10px;
+        width: 50%;
+        height: 100%;
+        overflow: scroll;
+      }
+      markdown-editor > textarea:focus-visible {
+        outline: none;
+      }
+      markdown-editor > div {
+        font-size: inherit;
+        font-weight: inherit;
+        color: black;
+        border-top-right-radius: 6px;
+        border-bottom-right-radius: 6px;
+        padding: 0 10px;
+        width: 50%;
+        height: 100%;
+        overflow: scroll;
+      }
+    </style>
+  </head>
+  <body>
+    <markdown-editor>
+      <textarea @input="updateEditor" $value="input"># Hello markdown</textarea>
+      <div $html="output"><h1>Hello markdown</h1></div>
+    </markdown-editor>
+    <script type="module">
+      import { marked } from 'https://unpkg.com/marked@9.0.3/lib/marked.esm.js';
+      import { Stellar } from '../../build/index.js';
+      class MarkdownEditor extends Stellar {
+        updateEditor = () => (this.output = marked(this.input ?? ''));
+      }
+      customElements.define('markdown-editor', MarkdownEditor);
+    </script>
+  </body>
+</html>

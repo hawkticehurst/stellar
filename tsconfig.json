@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "esnext",
+    "outDir": "build",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "declaration": true,
+    "strict": true,
+    "allowJs": true
+  },
+  "include": ["index.ts"],
+  "exclude": ["node_modules", "examples", "docs"]
+}

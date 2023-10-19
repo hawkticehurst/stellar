@@ -1,0 +1,28 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  font-family: system-ui, sans-serif;
+  font-weight: 500;
+  display: flex;
+  display: grid;
+  place-content: center;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+counter-button > button {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  color: black;
+  background-color: #efefef;
+  border: 2px solid #000;
+  border-radius: 8px;
+  padding: 6px 10px;
+}
+counter-button > button:hover,
+counter-button > button:active {
+  cursor: pointer;
+  background-color: #e6e6e6;
+}

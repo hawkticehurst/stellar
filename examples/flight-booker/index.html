@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flight Booker</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: system-ui, sans-serif;
+        font-weight: 500;
+        display: flex;
+        display: grid;
+        place-content: center;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+      }
+      flight-booker {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 335px;
+      }
+      flight-booker select,
+      flight-booker input,
+      flight-booker button {
+        border: solid 2px black;
+        border-radius: 6px;
+        padding: 6px 10px;
+        font: inherit;
+      }
+      flight-booker button:hover,
+      flight-booker button:active {
+        cursor: pointer;
+        background-color: #e6e6e6;
+      }
+      flight-booker button:disabled,
+      flight-booker input:disabled {
+        cursor: not-allowed;
+      }
+      flight-booker p {
+        display: none;
+        color: #ececec;
+        background-color: rgb(183, 19, 19);
+        border: solid 2px rgb(101, 26, 26);
+        border-radius: 8px;
+        padding: 6px 10px;
+        margin: 10px 0 0 0;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- https://eugenkiss.github.io/7guis/tasks/#flight -->
+    <flight-booker>
+      <input
+        type="text"
+        @input="checkForErrors"
+        $value="destination"
+        value="El Dorado"
+        placeholder="Destination"
+      />
+      <select @change="updateTripType" $value="tripType">
+        <option value="one-way">One-way</option>
+        <option value="round-trip">Round-trip</option>
+      </select>
+      <input type="date" @change="checkForErrors" $value="departDate" />
+      <input
+        type="date"
+        @change="checkForErrors"
+        $value="returnDate"
+        $disabled="returnDateDisabled"
+        disabled="true"
+      />
+      <button @click="bookTrip" $disabled="bookDisabled">Book</button>
+      <p :ref="dateError">Return date must be after departure date.</p>
+      <p :ref="destinationError">Please choose a destination.</p>
+    </flight-booker>
+    <script type="module">
+      import { Stellar } from '../../build/index.js';
+      class FlightBooker extends Stellar {
+        constructor() {
+          super();
+          this.departDate = dateToString(new Date());
+          this.returnDate = this.departDate;
+          this.isRoundTrip = () => this.tripType === 'round-trip';
+          this.hasDestination = () => this.destination !== undefined;
+          this.canBook = () =>
+            !this.isRoundTrip() ||
+            stringToDate(this.returnDate) >= stringToDate(this.departDate);
+        }
+        connectedCallback() {
+          super.connectedCallback();
+          this.checkForErrors();
+        }
+        updateTripType = (event) => {
+          this.tripType = event.target.value;
+          this.checkForErrors();
+        };
+        checkForErrors = () => {
+          this.returnDateDisabled = !this.isRoundTrip();
+          this.bookDisabled = !this.canBook() || !this.hasDestination();
+          this.refs.dateError.style.display = this.canBook() ? 'none' : 'block';
+          this.refs.destinationError.style.display = this.hasDestination()
+            ? 'none'
+            : 'block';
+        };
+        bookTrip = () => {
+          const message = this.isRoundTrip()
+            ? `You booked a round-trip to ${this.destination} leaving on ${this.departDate} and returning on ${this.returnDate}.`
+            : `You booked a one-way flight to ${this.destination} leaving on ${this.departDate}.`;
+          alert(message);
+        };
+      }
+      customElements.define('flight-booker', FlightBooker);
+      function pad(n, s = String(n)) {
+        return s.length < 2 ? `0${s}` : s;
+      }
+      function dateToString(date) {
+        return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(
+          date.getDate()
+        )}`;
+      }
+      function stringToDate(str) {
+        const [y, m, d] = str.split('-');
+        return new Date(+y, m - 1, +d);
+      }
+    </script>
+  </body>
+</html>

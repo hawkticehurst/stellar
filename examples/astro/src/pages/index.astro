@@ -1,0 +1,31 @@
+---
+import CounterButton from "../components/CounterButton.astro";
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<title>Stellar + Astro</title>
+	</head>
+	<body>
+		<h1>Stellar + Astro</h1>
+		<CounterButton count={0}></CounterButton>
+	</body>
+</html>
+<style is:global>
+	* {
+		box-sizing: border-box;
+	}
+	body {
+		font-family: system-ui, sans-serif;
+		font-weight: 500;
+		display: flex;
+		display: grid;
+		place-content: center;
+		height: 100vh;
+		margin: 0;
+		padding: 0;
+	}
+</style>

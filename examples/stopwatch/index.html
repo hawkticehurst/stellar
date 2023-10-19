@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Timer</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: system-ui, sans-serif;
+        font-weight: 500;
+        display: flex;
+        display: grid;
+        place-content: center;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+      }
+      stop-watch {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px 10px;
+      }
+      stop-watch p {
+        font-size: 1.8rem;
+        grid-column: span 2;
+        margin: 0;
+      }
+      stop-watch > button {
+        font-family: inherit;
+        font-size: inherit;
+        font-weight: inherit;
+        color: black;
+        background-color: #efefef;
+        border: 2px solid #000;
+        border-radius: 8px;
+        padding: 6px 10px;
+      }
+      stop-watch > button:hover,
+      stop-watch > button:active {
+        cursor: pointer;
+        background-color: #e6e6e6;
+      }
+    </style>
+  </head>
+  <body>
+    <stop-watch>
+      <p $state="time">0.00</p>
+      <button @click="toggle" $state="text">Start</button>
+      <button @click="reset">Reset</button>
+    </stop-watch>
+    <script type="module">
+      import { Stellar } from '../../build/index.js';
+      class StopWatch extends Stellar {
+        constructor() {
+          super();
+          this.isRunning = false;
+          this.savedTime = Number(0).toFixed(2);
+        }
+        toggle = () => {
+          if (this.isRunning) {
+            this.text = 'Start';
+            this.isRunning = false;
+            clearInterval(this.timeId);
+            this.savedTime = this.time;
+          } else {
+            this.text = 'Stop';
+            this.isRunning = true;
+            if (this.timeId) {
+              clearInterval(this.timeId);
+            }
+            const startTime = Date.now();
+            this.timeId = setInterval(() => {
+              const timePassed =
+                (Date.now() - startTime) / 1000 + parseFloat(this.savedTime);
+              this.time = timePassed.toFixed(2);
+            }, 10);
+          }
+        };
+        reset = () => {
+          if (this.timeId) {
+            clearInterval(this.timeId);
+            this.text = 'Start';
+            this.isRunning = false;
+          }
+          this.time = Number(0).toFixed(2);
+          this.savedTime = Number(0).toFixed(2);
+        };
+      }
+      customElements.define('stop-watch', StopWatch);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hello World</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: system-ui, sans-serif;
+        font-weight: 500;
+        display: flex;
+        display: grid;
+        place-content: center;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+      }
+      hello-world {
+        display: flex;
+        flex-direction: column;
+      }
+      hello-world > label {
+        margin-bottom: 0.5rem;
+      }
+      hello-world > input {
+        font-family: inherit;
+        font-size: inherit;
+        font-weight: inherit;
+        color: black;
+        background-color: #efefef;
+        border: 2px solid #000;
+        border-radius: 6px;
+        padding: 6px 10px;
+      }
+      hello-world > #msg-label {
+        margin-bottom: 0.5rem;
+      }
+      hello-world > #msg {
+        font-size: 1.4rem;
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <hello-world>
+      <label for="name">Enter name:</label>
+      <input id="name" type="text" $bind:value="name" value="world" />
+      <p id="msg-label">Message:</p>
+      <p id="msg">Hello <span $state="name">world</span>!</p>
+    </hello-world>
+    <script type="module">
+      import { Stellar } from '../../build/index.js';
+      class HelloWorld extends Stellar {}
+      customElements.define('hello-world', HelloWorld);
+    </script>
+  </body>
+</html>

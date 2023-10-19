@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Numbers</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: system-ui, sans-serif;
+        font-weight: 500;
+        display: grid;
+        place-content: center;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+      }
+      slider-math {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+      }
+      slider-math label {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      slider-math input[type='number'] {
+        font-family: inherit;
+        font-size: inherit;
+        font-weight: inherit;
+        color: black;
+        background-color: #efefef;
+        border: 2px solid #000;
+        border-radius: 6px;
+        padding: 6px 10px;
+      }
+      :root {
+        --slider-track-color: #cbcbcb;
+        --slider-track-radius: 4px;
+        --slider-track-height: 6px;
+        --slider-thumb-color: #5b5b5b;
+        --slider-thumb-size: 14px;
+        --slider-thumb-focus: 0 0 0 8px rgba(0, 0, 0, 0.2);
+      }
+      slider-math input[type='range'] {
+        -webkit-appearance: none;
+        appearance: none;
+        background: transparent;
+        cursor: pointer;
+        width: 200px;
+      }
+      slider-math input[type='range']:focus {
+        outline: none;
+      }
+      slider-math input[type='range']::-webkit-slider-runnable-track {
+        background-color: var(--slider-track-color);
+        border-radius: var(--slider-track-radius);
+        height: var(--slider-track-height);
+      }
+      slider-math input[type='range']::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        margin-top: -4px;
+        background-color: var(--slider-thumb-color);
+        border-radius: 50%;
+        height: var(--slider-thumb-size);
+        width: var(--slider-thumb-size);
+      }
+      slider-math input[type='range']:focus::-webkit-slider-thumb {
+        box-shadow: var(--slider-thumb-focus);
+      }
+      slider-math input[type='range']::-moz-range-track {
+        background-color: var(--slider-track-color);
+        border-radius: var(--slider-track-radius);
+        height: var(--slider-track-height);
+      }
+      slider-math input[type='range']::-moz-range-thumb {
+        border: none;
+        border-radius: 50%;
+        background-color: var(--slider-thumb-color);
+        height: var(--slider-thumb-size);
+        width: var(--slider-thumb-size);
+      }
+      slider-math input[type='range']:focus::-moz-range-thumb {
+        box-shadow: var(--slider-thumb-focus);
+      }
+    </style>
+  </head>
+  <body>
+    <slider-math>
+      <label>
+        <input type="number" $bind:value="a" value="1" min="0" max="10" />
+        <input type="range" $bind:value="a" value="1" min="0" max="10" />
+      </label>
+      <label>
+        <input type="number" $bind:value="b" value="2" min="0" max="10" />
+        <input type="range" $bind:value="b" value="2" min="0" max="10" />
+      </label>
+      <p>
+        <span $state="a">1</span> + <span $state="b">2</span> =
+        <span $derive="sum(a,b)">3</span>
+      </p>
+    </slider-math>
+    <script type="module">
+      import { Stellar } from '../../build/index.js';
+      class SliderMath extends Stellar {
+        sum = (a, b) => a + b;
+      }
+      customElements.define('slider-math', SliderMath);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,33 @@
+{
+  "name": "stellar-astro-example",
+  "type": "module",
+  "private": true,
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^3.3.2"
+  },
+  "devDependencies": {
+    "prettier": "^3.0.3",
+    "prettier-plugin-astro": "^0.12.0"
+  },
+  "prettier": {
+    "printWidth": 80,
+    "tabWidth": 2,
+    "useTabs": false,
+    "semi": true,
+    "singleQuote": true,
+    "quoteProps": "consistent",
+    "jsxSingleQuote": false,
+    "trailingComma": "es5",
+    "bracketSpacing": true,
+    "bracketSameLine": false,
+    "arrowParens": "always"
+  }
+}

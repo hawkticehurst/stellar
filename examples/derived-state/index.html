@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Derived State</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: system-ui, sans-serif;
+        font-weight: 500;
+        display: flex;
+        display: grid;
+        place-content: center;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+      }
+      derived-state > button {
+        font-family: inherit;
+        font-size: inherit;
+        font-weight: inherit;
+        color: black;
+        background-color: #efefef;
+        border: 2px solid #000;
+        border-radius: 8px;
+        padding: 6px 10px;
+      }
+      derived-state > button:hover,
+      derived-state > button:active {
+        cursor: pointer;
+        background-color: #e6e6e6;
+      }
+    </style>
+  </head>
+  <body>
+    <derived-state>
+      <button @click="increment">
+        Clicked <span $state="count">0</span> times
+      </button>
+      <p>Doubled: <span $derive="double(count)">0</span></p>
+    </derived-state>
+    <script type="module">
+      import { Stellar } from '../../build/index.js';
+      class DerivedState extends Stellar {
+        increment = () => this.count++;
+        double = (count) => count * 2;
+      }
+      customElements.define('derived-state', DerivedState);
+    </script>
+  </body>
+</html>
