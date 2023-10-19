@@ -5,8 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "start": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview"
+  },
+  "dependencies": {
+    "stellar-element": "^0.1.0"
   },
   "devDependencies": {
     "typescript": "^5.0.2",

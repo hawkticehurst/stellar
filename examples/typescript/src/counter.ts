@@ -1,4 +1,4 @@
-import { Stellar } from '../../../index';
+import { Stellar } from 'stellar-element';
 import './style.css';
 
 class CounterButton extends Stellar {
