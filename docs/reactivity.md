@@ -6,7 +6,7 @@ Unlike other web frameworks, however, state in Stellar is defined a little diffe
 
 In Stellar, this relationship is inversed. Reactive state is defined in HTML and then made accessible within JavaScript –– we call it "HTML-based state."
 
-Below are a handful of directives that let you tap into Stellar's reactivity model. 
+Below are a handful of directives that let you tap into Stellar's reactivity model.
 
 ## $state
 
@@ -28,7 +28,7 @@ $="name"
 
 The `$state` directive allows you to define a piece of reactive state in HTML that is then made accessible within JavaScript. If you're coming from another web framework, a new concept to become familiar with is that state is automatically initialized based on the existing text content of a stateful element.
 
-When trying to understand a reactive state declaration the following code should be interpreted as follows: 
+When trying to understand a reactive state declaration the following code should be interpreted as follows:
 
 - The paragraph element is marked as stateful via the `$state` directive
 - The name of the state is `text` and can be accessed in JavaScript by calling `this.name`
@@ -41,7 +41,7 @@ When trying to understand a reactive state declaration the following code should
 To provide a more complete example below, state defined on the span element will be accessible as a reactive property (i.e. `this.count`) in the CounterButton class and will be initialized with the number zero. Accessing state will return the current state and updating the state will automatically update the elements text content.
 
 > [!NOTE]
-> As a convenience, all reactive state is coerced to the correct data type when being accessed in JavaScript. For example, when accessing the `count` state below it will be of type `number`. 
+> As a convenience, all reactive state is coerced to the correct data type when being accessed in JavaScript. For example, when accessing the `count` state below it will be of type `number`.
 
 ```html
 <counter-button>
@@ -124,7 +124,8 @@ If for whatever reason you can't or don't want to rely on auto-initialization of
 ```html
 <counter-button>
   <button @click="increment">
-    Clicked <span $state="count"></span> times <!-- Count state has no HTML-based initial value -->
+    <!-- Count state has no HTML-based initial value -->
+    Clicked <span $state="count"></span> times
   </button>
 </counter-button>
 
@@ -133,7 +134,7 @@ If for whatever reason you can't or don't want to rely on auto-initialization of
   class CounterButton extends Stellar {
     constructor() {
       super();
-			this.count = 0; // Count is initialized here!
+      this.count = 0; // Count is initialized here!
       console.log(this.count); // Logs: 0
     }
     increment = () => this.count++; // Updates state and triggers rerender
@@ -272,7 +273,7 @@ To be clear, this directive is syntactic sugar and the same functionality could 
   class HelloWorld extends Stellar {
     sync = (event) => {
       this.name = event.target.value;
-    }
+    };
   }
   customElements.define('hello-world', HelloWorld);
 </script>

@@ -7,4 +7,3 @@
 - Using Astro and Stellar
 - Using TypeScript
 - Ref directive
-
