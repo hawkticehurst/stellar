@@ -6,7 +6,8 @@
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "declaration": true,
     "strict": true,
-    "allowJs": true
+    "allowJs": true,
+    "removeComments": true
   },
   "include": ["index.ts"],
   "exclude": ["node_modules", "examples", "docs"]
