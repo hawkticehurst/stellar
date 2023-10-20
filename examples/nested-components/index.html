@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nested Components</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: system-ui, sans-serif;
+        font-weight: 500;
+        display: grid;
+        place-content: center;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+      }
+      parent-component {
+        border: dashed 2px purple;
+        border-radius: 10px;
+        padding: 1rem;
+      }
+      parent-component > .child-message {
+        margin: 1rem 0 0 0;
+      }
+      child-component {
+        display: grid;
+        padding: 1rem;
+        margin-top: 10px;
+        border: dashed 2px purple;
+        border-radius: 10px;
+      }
+      p {
+        font-weight: bold;
+        margin: 0 0 10px 0;
+      }
+      input {
+        font-family: inherit;
+        font-size: inherit;
+        font-weight: inherit;
+        color: black;
+        background-color: #efefef;
+        border: 2px solid #000;
+        border-radius: 6px;
+        padding: 6px 10px;
+      }
+      button {
+        font-family: inherit;
+        font-size: inherit;
+        font-weight: inherit;
+        color: black;
+        background-color: #efefef;
+        border: 2px solid #000;
+        border-radius: 8px;
+        padding: 6px 10px;
+      }
+      button:hover,
+      button:active {
+        cursor: pointer;
+        background-color: #e6e6e6;
+      }
+    </style>
+  </head>
+  <body>
+    <parent-component @message="renderDataFromChild">
+      <p>Parent Component</p>
+      <input type="number" $value="count" value="0" />
+      <button @click="passDataIntoChild">Set child count</button>
+      <child-component>
+        <p>Child Component</p>
+        <button @click="increment">
+          Count is: <span $state="count">0</span>
+        </button>
+      </child-component>
+      <p class="child-message">
+        Count from child: <span $state="message">0</span>
+      </p>
+    </parent-component>
+    <script type="module">
+      import { Stellar } from 'https://www.unpkg.com/stellar-element@0.1.0/build/index.js';
+      class ParentComponent extends Stellar {
+        renderDataFromChild = (event) => (this.message = event.detail.message);
+        passDataIntoChild = () => {
+          const child = this.querySelector('child-component');
+          child.setCount(this.count);
+        };
+      }
+      class ChildComponent extends Stellar {
+        increment = (event) => {
+          this.count++;
+          this.sendDataToParent(event);
+        };
+        sendDataToParent = (event) => {
+          const msgEvent = new CustomEvent('message', {
+            bubbles: true,
+            detail: { message: `${this.count}` ?? '' },
+          });
+          event.target.dispatchEvent(msgEvent);
+        };
+				setCount = (value) => {
+					this.count = value;
+				}
+      }
+      customElements.define('parent-component', ParentComponent);
+      customElements.define('child-component', ChildComponent);
+    </script>
+  </body>
+</html>
