@@ -2,12 +2,12 @@
 
 A stellar way to build custom elements.
 
-<img src="./assets/stellar.png" alt="Stellar logo" width="100%" height="auto" />
+<img src="./assets/banner.png" alt="Stellar logo" width="100%" height="auto" />
 
 ## Usage
 
 ```bash
-npm install stellar-element
+npm install stellar-element@latest
 ```
 
 ```html
@@ -41,4 +41,4 @@ Todo...
 
 ## License
 
-This is licensed under [MIT](./LICENSE). Feel free to use, remix, and adapt the code found this repo in your own projects.
+This project is licensed under [MIT](./LICENSE). Feel free to use, remix, and adapt the code found this repo in your own projects.
