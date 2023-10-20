@@ -80,7 +80,7 @@
       <div $html="output"><h1>Hello markdown</h1></div>
     </markdown-editor>
     <script type="module">
-      import { Stellar } from 'https://www.unpkg.com/stellar-element@0.1.0/build/index.js';
+      import { Stellar } from 'https://www.unpkg.com/stellar-element@0.2.0/build/index.js';
       import { marked } from 'https://unpkg.com/marked@9.0.3/lib/marked.esm.js';
       class MarkdownEditor extends Stellar {
         updateEditor = () => (this.output = marked(this.input ?? ''));
