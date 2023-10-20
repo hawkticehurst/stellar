@@ -1,3 +1,6 @@
+function isCustomElement(tagName: string) {
+  return tagName.includes('-');
+}
 function removeAttribute(elem: HTMLElement, attr: Attr) {
   elem?.removeAttributeNode(attr);
 }
@@ -20,28 +23,49 @@ export class Stellar extends HTMLElement {
     this.refs = {};
     let node;
     const changes: (() => void)[] = [];
-    const iterator = document.createNodeIterator(this, NodeFilter.SHOW_ELEMENT);
+    const nestedCustomElements: HTMLElement[] = [];
+    const filter = (node: Node) => {
+      // Reject any node that is not an HTML element
+      if (!(node instanceof HTMLElement)) {
+        return NodeFilter.FILTER_REJECT;
+      }
+      // Check if node is a nested custom element
+      if (isCustomElement(node.tagName) && node.tagName !== this.tagName) {
+        nestedCustomElements.push(node);
+        return NodeFilter.FILTER_REJECT;
+      }
+      // Check if node is a child of a nested custom element
+      for (const nested of nestedCustomElements) {
+        if (nested.contains(node)) {
+          return NodeFilter.FILTER_REJECT;
+        }
+      }
+      return NodeFilter.FILTER_ACCEPT;
+    };
+    const iterator = document.createNodeIterator(
+      this,
+      NodeFilter.SHOW_ELEMENT,
+      { acceptNode: filter }
+    );
     while ((node = iterator.nextNode())) {
-      if (!node) return;
-      if (node instanceof HTMLElement) {
-        for (const attr of node.attributes) {
-          switch (true) {
-            case attr.name === ':ref':
-              changes.push(() => this.#setRef(attr));
-              break;
-            case attr.name.startsWith('$bind'):
-              this.#bindProperty(attr);
-              break;
-            case attr.name === '$derive':
-              this.#deriveState(attr);
-              break;
-            case attr.name.startsWith('$'):
-              changes.push(() => this.#setState(attr));
-              break;
-            case attr.name.startsWith('@'):
-              changes.push(() => this.#setEventHandler(attr));
-              break;
-          }
+      if (!node || !(node instanceof HTMLElement)) return;
+      for (const attr of node.attributes) {
+        switch (true) {
+          case attr.name === ':ref':
+            changes.push(() => this.#setRef(attr));
+            break;
+          case attr.name.startsWith('$bind'):
+            this.#bindProperty(attr);
+            break;
+          case attr.name === '$derive':
+            this.#deriveState(attr);
+            break;
+          case attr.name.startsWith('$'):
+            changes.push(() => this.#setState(attr));
+            break;
+          case attr.name.startsWith('@'):
+            changes.push(() => this.#setEventHandler(attr));
+            break;
         }
       }
     }
