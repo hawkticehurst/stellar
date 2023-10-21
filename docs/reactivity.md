@@ -136,7 +136,7 @@ An intentional goal of this model is to be extremely SSR-friendly and align (mos
 
 When used in a framework like Astro, initial component state can start in the server, be encoded directly into your HTML, and then be seamlessly hydrated on the client without any layout shift issues or flashes of new content once JavaScript is parsed and executed. Read our [Using Stellar and Astro docs](./using-astro.md) for even more information about this method of building web applications.
 
-```jsx
+```astro
 ---
 // State starts in the server!
 const initial = "Hello world!"
