@@ -174,7 +174,30 @@ $property="name"
 
 ### Usage
 
-Similar, to the `$state` directive this will create a piece of state, but instead of reactively updating the element's text content changes to state created with the `$state:property` directive will update an element's property.
+Similar to the `$state` directive this will create a piece of state, but instead of reactively updating the element's text content changes to state created with the `$state:property` (or just `$property`) directive will update an element's property.
+
+Here's an example:
+
+```html
+<toggle-checkbox>
+  <input type="checkbox" $checked="isChecked" $disabled="isDisabled" />
+  <button @click="toggleChecked">Toggle checked state</button>
+  <button @click="toggleDisabled">Toggle disabled state</button>
+</toggle-checkbox>
+
+<script type="module">
+  import { Stellar } from 'stellar-element';
+  class ToggleCheckbox extends Stellar {
+    toggleChecked = () => {
+      this.isChecked = !this.isChecked; // Toggle between checked states
+    };
+    toggleDisabled = () => {
+      this.isDisabled = !this.isDisabled; // Toggle between disabled states
+    };
+  }
+  customElements.define('toggle-checkbox', ToggleCheckbox);
+</script>
+```
 
 ## $state:html
 
