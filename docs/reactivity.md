@@ -1,12 +1,21 @@
 # Reactivity
 
-Similar to many web frameworks, reactivity in Stellar is a way of declaratively defining pieces of stateful UI. When the state is changed the DOM will be automatically updated to reflect that change.
+Stellar, like many other web frameworks, ships a reactivity model that lets you declaratively define pieces of stateful UI.
 
-Unlike other web frameworks, however, state in Stellar is defined a little different than what you might have experienced when using frameworks like React, Svelte, or Vue. In most frameworks, state is defined in JavaScript and then passed into component markup using some type of templating syntax.
+Unlike other web frameworks, however, state in is defined a little different than what you might have experienced when using tools like React, Svelte, or Vue. In most frameworks, state is defined in JavaScript and then passed into component markup using some type of templating syntax. In Stellar, this relationship is inversed. Reactive state is defined in HTML and then made accessible within JavaScript.
 
-In Stellar, this relationship is inversed. Reactive state is defined in HTML and then made accessible within JavaScript –– we call it "HTML-based state."
+It's called "HTML-based state."
 
-Below are a handful of directives that let you tap into Stellar's reactivity model.
+This reactive model is exposed with a handful custom attributes called "directives" that begin with a `$` and can attached to any element within a Stellar component.
+
+Reactive directives include:
+
+- [$state](#$state)
+- [$state:_property_](#$state:_property_)
+- [$state:html](#$state:html)
+- [$bind](#$bind)
+- [$bind:_property_](#$bind:_property_)
+- [$derive](#$derive)
 
 ## $state
 
