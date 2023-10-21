@@ -38,6 +38,7 @@ Todo...
 
 - [Event handling](./docs/event-handling.md)
 - [Reactivity](./docs/reactivity.md)
+- [Using Stellar and Astro](./docs/using-astro.md)
 
 ## License
 
