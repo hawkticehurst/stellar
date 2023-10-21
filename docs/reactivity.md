@@ -205,7 +205,7 @@ A classic example of needing to reactively set inner HTML content is when buildi
 </markdown-editor>
 
 <script type="module">
-  import { Stellar } from 'slim-element';
+  import { Stellar } from 'stellar-element';
   import { marked } from 'marked';
   class MarkdownEditor extends Stellar {
     updateEditor = () => {
@@ -340,7 +340,7 @@ Inspired by [Vue computed properties](https://vuejs.org/guide/essentials/compute
 </derived-state>
 
 <script type="module">
-  import { Stellar } from 'slim-element';
+  import { Stellar } from 'stellar-element';
   class DerivedState extends Stellar {
     increment = () => this.count++;
     double = (count) => count * 2; // Whenever the count state is changed this method will be executed
