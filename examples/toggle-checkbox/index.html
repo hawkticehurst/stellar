@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Toggle Checkbox</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: system-ui, sans-serif;
+        font-weight: 500;
+        display: grid;
+        place-content: center;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+      }
+      toggle-checkbox {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      /* Custom checkbox styling resource: https://moderncss.dev/pure-css-custom-checkbox-style/ */
+      :root {
+        --checkbox-color: #000;
+        --checkbox-disabled-color: #858585;
+        --checkbox-size: 24px;
+      }
+      toggle-checkbox label {
+        display: grid;
+        grid-template-columns: var(--checkbox-size) auto;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+      }
+      toggle-checkbox input[type='checkbox'] {
+        -webkit-appearance: none;
+        appearance: none;
+        margin: 0;
+        width: var(--checkbox-size);
+        height: var(--checkbox-size);
+        border: 2px solid var(--checkbox-color);
+        border-radius: 6px;
+        display: grid;
+        place-content: center;
+        cursor: pointer;
+      }
+      toggle-checkbox input[type='checkbox']::before {
+        --checkmark-size: 15px;
+        content: '';
+        box-shadow: inset var(--checkmark-size) var(--checkmark-size)
+          var(--checkbox-color);
+        background-color: CanvasText;
+        width: var(--checkmark-size);
+        height: var(--checkmark-size);
+        clip-path: polygon(
+          12.08% 50.81%,
+          0.24% 67.73%,
+          42.23% 97.13%,
+          99.25% 15.68%,
+          81.01% 2.91%,
+          35.84% 67.44%
+        );
+        transform: scale(0);
+        transition: transform 100ms ease-in-out;
+      }
+      toggle-checkbox input[type='checkbox']:checked::before {
+        transform: scale(1);
+      }
+      toggle-checkbox input[type='checkbox']:focus-visible {
+        outline: none;
+        border-color: #015fcc;
+      }
+      toggle-checkbox input[type='checkbox']:disabled,
+      toggle-checkbox label:has(input[type='checkbox']:disabled) {
+        --checkbox-color: var(--checkbox-disabled-color);
+        color: var(--checkbox-disabled-color);
+        cursor: not-allowed;
+      }
+      toggle-checkbox button {
+        font-family: inherit;
+        font-size: inherit;
+        font-weight: inherit;
+        color: #000;
+        background-color: #efefef;
+        border: 2px solid #000;
+        border-radius: 8px;
+        padding: 6px 10px;
+      }
+      toggle-checkbox button:hover,
+      toggle-checkbox button:active {
+        cursor: pointer;
+        background-color: #e6e6e6;
+      }
+    </style>
+  </head>
+  <body>
+    <toggle-checkbox>
+      <label>
+        <input type="checkbox" $checked="isChecked" $disabled="isDisabled" />
+        Some label
+      </label>
+      <button @click="toggleChecked">Toggle checked state</button>
+      <button @click="toggleDisabled">Toggle disabled state</button>
+    </toggle-checkbox>
+    <script type="module">
+      import { Stellar } from 'https://www.unpkg.com/stellar-element@0.2.0/build/index.js';
+      class ToggleCheckbox extends Stellar {
+        toggleChecked = () => {
+          // Toggle between checked states (but only when not disabled)
+          this.isDisabled ? null : (this.isChecked = !this.isChecked);
+        };
+        toggleDisabled = () => {
+          // Toggle between disabled states
+          this.isDisabled = !this.isDisabled;
+        };
+      }
+      customElements.define('toggle-checkbox', ToggleCheckbox);
+    </script>
+  </body>
+</html>
