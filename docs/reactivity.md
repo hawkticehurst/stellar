@@ -194,7 +194,28 @@ $html="name"
 
 ### Usage
 
-Similar, to the `$state` directive this will create a piece of state, but instead of reactively updating the element's text content changes to state created with the `$state:html` directive will update an element's inner HTML.
+Similar, to the `$state` directive this will create a piece of state, but instead of reactively updating the element's text content changes to state created with the `$state:html` (or just `$html`) directive will update an element's inner HTML.
+
+A classic example of needing to reactively set inner HTML content is when building a markdown editor. Using a markdown parser (such as [marked](https://github.com/markedjs/marked)) and the `$html` directive makes this task trivial –– like one line of JavaScript trivial.
+
+```html
+<markdown-editor>
+  <textarea @input="updateEditor" $value="input"># Hello markdown</textarea>
+  <div $html="output"><h1>Hello markdown</h1></div>
+</markdown-editor>
+
+<script type="module">
+  import { Stellar } from 'slim-element';
+  import { marked } from 'marked';
+  class MarkdownEditor extends Stellar {
+    updateEditor = () => {
+      // Set inner HTML of div element with the parsed markdown from text area
+      this.output = marked(this.input ?? '');
+    }
+  }
+  customElements.define('markdown-editor', MarkdownEditor);
+</script>
+```
 
 ## $bind
 
