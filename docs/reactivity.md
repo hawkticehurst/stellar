@@ -49,7 +49,7 @@ When trying to understand a reactive state declaration, the following code...
 - The name of the state is `text` and can be accessed in JavaScript by calling `this.text`
 - The initial value of the state is the string "Hello world!"
 
-![HTML based state diagram](../assets/html-based-state.png)
+![HTML based state diagram](../assets/html-based-state-diagram.png)
 
 To provide a more complete example below, state defined on the span element will be accessible as a reactive property (i.e. `this.count`) in the CounterButton class and will be initialized with the number zero. Accessing state will return the current state and updating the state will automatically update the elements text content.
 
