@@ -70,7 +70,7 @@ To provide a more complete example below, state defined on the span element will
       super();
       console.log(this.count); // Logs: 0
     }
-    increment = () => this.count++; // Updates state and triggers rerender
+    increment = () => this.count++; // Increment count state and update span element with new count
   }
   customElements.define('counter-button', CounterButton);
 </script>
@@ -101,7 +101,7 @@ If for whatever reason you can't or don't want to rely on auto-initialization of
       this.count = 0; // Count is initialized here!
       console.log(this.count); // Logs: 0
     }
-    increment = () => this.count++; // Updates state and triggers rerender
+    increment = () => this.count++; // Increment count state and update span element with new count
   }
   customElements.define('counter-button', CounterButton);
 </script>
@@ -121,7 +121,7 @@ It is recommended that you scope your state to be as small as possible. In pract
   import { Stellar } from 'stellar-element';
   class HelloMessage extends Stellar {
     hello = () => {
-      this.message = 'Hey there!';
+      this.message = 'Hey there!'; // Update span element with text "Hey there!"
     };
   }
   customElements.define('hello-message', HelloMessage);
@@ -148,7 +148,7 @@ const initial = "Hello world!"
     constructor() {
       super();
       console.log(this.text) // Logs "Hello world!"
-      this.text = "Hey there!" // Rerender paragraph element with text "Hey there!"
+      this.text = "Hey there!" // Update paragraph element with text "Hey there!"
       console.log(this.text) // Logs "Hey there!"
     }
   }
@@ -223,7 +223,7 @@ The `$bind` directive accepts the name of some state that has been defined elsew
 <script type="module">
   import { Stellar } from 'stellar-element';
   class BoundValues extends Stellar {
-    increment = () => this.count++;
+    increment = () => this.count++; // Update all span elements tied to count state
   }
   customElements.define('bound-values', BoundValues);
 </script>
