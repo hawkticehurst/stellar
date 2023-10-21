@@ -10,12 +10,12 @@ This reactive model is exposed with a handful custom attributes called "directiv
 
 Reactive directives include:
 
-- [$state](#$state)
-- [$state:_property_](#$state:_property_)
-- [$state:html](#$state:html)
-- [$bind](#$bind)
-- [$bind:_property_](#$bind:_property_)
-- [$derive](#$derive)
+- [$state](#state)
+- [$state:_property_](#stateproperty)
+- [$state:html](#$statehtml)
+- [$bind](#bind)
+- [$bind:_property_](#bindproperty)
+- [$derive](#derive)
 
 ## $state
 
