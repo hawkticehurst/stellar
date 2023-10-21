@@ -37,15 +37,17 @@ $="name"
 
 The `$state` directive allows you to define a piece of reactive state in HTML that is then made accessible within JavaScript. If you're coming from another web framework, a new concept to become familiar with is that state is automatically initialized based on the existing text content of a stateful element.
 
-When trying to understand a reactive state declaration the following code should be interpreted in the following way:
-
-- The paragraph element is marked as stateful via the `$state` directive
-- The name of the state is `text` and can be accessed in JavaScript by calling `this.text`
-- The initial value of the state is the string "Hello world!"
+When trying to understand a reactive state declaration, the following code...
 
 ```html
 <p $state="text">Hello world!</p>
 ```
+
+...should be interpreted in the following way:
+
+- The paragraph element is marked as stateful via the `$state` directive
+- The name of the state is `text` and can be accessed in JavaScript by calling `this.text`
+- The initial value of the state is the string "Hello world!"
 
 ![HTML based state diagram](../assets/html-based-state.png)
 
