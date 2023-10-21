@@ -38,6 +38,8 @@ When trying to understand a reactive state declaration the following code should
 <p $state="text">Hello world!</p>
 ```
 
+![Reactive state diagram](../assets/state-diagram.png)
+
 To provide a more complete example below, state defined on the span element will be accessible as a reactive property (i.e. `this.count`) in the CounterButton class and will be initialized with the number zero. Accessing state will return the current state and updating the state will automatically update the elements text content.
 
 > [!NOTE]
