@@ -329,7 +329,7 @@ $derive="callback(...statenames)"
 
 The `$derive` directive can be used to create new (alterted) state based on other state in a Stellar component.
 
-Inspired by [Vue computed properties](https://vuejs.org/guide/essentials/computed.html), this directive let's you declare a callback method that accepts component state (defined using `$state` or `$state:property`) and will be executed whenever that dependent state changes. The newly created state will be
+Inspired by [Vue computed properties](https://vuejs.org/guide/essentials/computed.html), this directive let's you declare a callback method that accepts component state (defined using `$state` or `$state:property`) and will be executed whenever that dependent state changes.
 
 ```html
 <derived-state>
