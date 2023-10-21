@@ -126,7 +126,8 @@ export class Stellar extends HTMLElement {
           }
           for (const { elem, method, vars } of this._derived) {
             const params: any = [];
-            for (const v of vars) {
+            for (let v of vars) {
+              v = v.trim();
               if (v === stateName) {
                 params.push(coerce(value));
               } else {
