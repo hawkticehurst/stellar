@@ -70,7 +70,8 @@ To provide a more complete example below, state defined on the span element will
       super();
       console.log(this.count); // Logs: 0
     }
-    increment = () => this.count++; // Increment count state and update span element with new count
+    // Increment count state and update span element with new count
+    increment = () => this.count++;
   }
   customElements.define('counter-button', CounterButton);
 </script>
@@ -101,7 +102,8 @@ If for whatever reason you can't or don't want to rely on auto-initialization of
       this.count = 0; // Count is initialized here!
       console.log(this.count); // Logs: 0
     }
-    increment = () => this.count++; // Increment count state and update span element with new count
+    // Increment count state and update span element with new count
+    increment = () => this.count++;
   }
   customElements.define('counter-button', CounterButton);
 </script>
@@ -174,13 +176,16 @@ $property="name"
 
 ### Usage
 
-Similar to the `$state` directive this will create a piece of state, but instead of reactively updating the element's text content changes to state created with the `$state:property` (or just `$property`) directive will update an element's property.
+Similar to the `$state` directive this will create a piece of state, but instead of reactively updating the element's text content, changes to state created with the `$state:property` (or just `$property`) directive will update an element's property.
 
 Here's an example:
 
 ```html
 <toggle-checkbox>
-  <input type="checkbox" $checked="isChecked" $disabled="isDisabled" />
+  <label>
+    <input type="checkbox" $checked="isChecked" $disabled="isDisabled" />
+    Some label
+  </label>
   <button @click="toggleChecked">Toggle checked state</button>
   <button @click="toggleDisabled">Toggle disabled state</button>
 </toggle-checkbox>
@@ -189,10 +194,12 @@ Here's an example:
   import { Stellar } from 'stellar-element';
   class ToggleCheckbox extends Stellar {
     toggleChecked = () => {
-      this.isChecked = !this.isChecked; // Toggle between checked states
+      // If not disabled, toggle between checked states
+      this.isDisabled ? null : (this.isChecked = !this.isChecked);
     };
     toggleDisabled = () => {
-      this.isDisabled = !this.isDisabled; // Toggle between disabled states
+      // Toggle between disabled states
+      this.isDisabled = !this.isDisabled;
     };
   }
   customElements.define('toggle-checkbox', ToggleCheckbox);
@@ -232,7 +239,7 @@ A classic example of needing to reactively set inner HTML content is when buildi
   import { marked } from 'marked';
   class MarkdownEditor extends Stellar {
     updateEditor = () => {
-      // Set inner HTML of div element with the parsed markdown from text area
+      // Set inner HTML of the div with the parsed markdown from the textarea
       this.output = marked(this.input ?? '');
     };
   }
@@ -366,7 +373,9 @@ Inspired by [Vue computed properties](https://vuejs.org/guide/essentials/compute
   import { Stellar } from 'stellar-element';
   class DerivedState extends Stellar {
     increment = () => this.count++;
-    double = (count) => count * 2; // Whenever the count state is changed this method will be executed
+    // Whenever count state is changed the double method will be executed
+    // with the new state passed in as a parameter
+    double = (count) => count * 2;
   }
   customElements.define('derived-state', DerivedState);
 </script>
@@ -407,7 +416,8 @@ Here's an example:
 <script type="module">
   import { Stellar } from 'stellar-element';
   class SliderMath extends Stellar {
-    sum = (a, b, c) => a + b + c; // Whenever state a, b, or c change this method will be executed
+    // Whenever state a, b, or c changes the sum method will be executed
+    sum = (a, b, c) => a + b + c;
   }
   customElements.define('slider-math', SliderMath);
 </script>
