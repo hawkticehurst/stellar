@@ -16,7 +16,6 @@ Reactive directives include:
 - [$bind](#bind)
 - [$bind:_property_](#bindproperty)
 - [$derive](#derive)
-- [$derive:_property_](#deriveproperty-under-consideration) [Under Consideration]
 
 ## $state
 
@@ -389,20 +388,3 @@ Here's an example:
   customElements.define('slider-math', SliderMath);
 </script>
 ```
-
-## $derive:_property_ [Under Consideration]
-
-Derive new state based on existing state(s), tied to an element property.
-
-> [!WARNING]
-> This directive has not yet been implemented and is still under consideration. If you think this would be a useful directive to have feedback and any use cases or examples would be greatly appreciated.
-
-### Syntax
-
-```
-$derive:property="callback(...statenames)"
-```
-
-### Usage
-
-Like the `$derive` directive, `$derive:property` will be a way of creating new state based on other state in a Stellar component, but the new state will be tied to an element property instead of element text content.
