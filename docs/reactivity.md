@@ -76,56 +76,7 @@ To provide a more complete example below, state defined on the span element will
 </script>
 ```
 
-A by-product of this model is that state must _always_ be tied to a DOM node. In the future, this may change with the addition of [DOM Parts API](https://github.com/WICG/webcomponents/blob/gh-pages/proposals/DOM-Parts.md) to browsers, but for now state must be explicitly defined using an HTML element.
-
-**State starts in the server**
-
-An intentional goal of this model is to be extremely SSR-friendly and align (mostly) well with [hypermedia-driven principles](https://hypermedia.systems/). When used in a framework like Astro, initial component state can start in the server, be encoded directly into your HTML, and then be seamlessly hydrated on the client without any layout shift issues or flashes of new content once JavaScript is executed.
-
-```astro
----
-// State starts in the server!
-const initial = "Hello world!"
----
-
-<log-text>
-  <p $state="text">{initial}</p>
-</log-text>
-
-<script>
-  import { Stellar } from 'stellar-element';
-  class LogText extends Stellar {
-    constructor() {
-      super();
-      console.log(this.text) // Logs "Hello world!"
-      this.text = "Hey there!" // Rerender paragraph element with text "Hey there!"
-      console.log(this.text) // Logs "Hey there!"
-    }
-  }
-  customElements.define('log-text', LogText);
-</script>
-```
-
-**Scoping state**
-
-It is recommended that you scope your state to be as small as possible. In practice this usually means using a lot of `<span>` tags within your markup to denote pockets of reactivity.
-
-```html
-<hello-message>
-  <button @click="hello">Click for message</button>
-  <p>Message: <span $state="message"></span></p>
-</hello-message>
-
-<script type="module">
-  import { Stellar } from 'stellar-element';
-  class HelloMessage extends Stellar {
-    hello = () => {
-      this.message = 'Hey there!';
-    };
-  }
-  customElements.define('hello-message', HelloMessage);
-</script>
-```
+A by-product of this model is that state must _always_ be tied to a DOM node –– state (and all reactive directives for the matter) must be explicitly defined using an HTML element.
 
 **Initializing state in JavaScript**
 
@@ -153,6 +104,55 @@ If for whatever reason you can't or don't want to rely on auto-initialization of
     increment = () => this.count++; // Updates state and triggers rerender
   }
   customElements.define('counter-button', CounterButton);
+</script>
+```
+
+**Scoping state**
+
+It is recommended that you scope your state to be as small as possible. In practice this usually means using a lot of `<span>` tags within your markup to denote pockets of reactivity.
+
+```html
+<hello-message>
+  <button @click="hello">Click for message</button>
+  <p>Message: <span $state="message"></span></p>
+</hello-message>
+
+<script type="module">
+  import { Stellar } from 'stellar-element';
+  class HelloMessage extends Stellar {
+    hello = () => {
+      this.message = 'Hey there!';
+    };
+  }
+  customElements.define('hello-message', HelloMessage);
+</script>
+```
+
+**State starts in the server**
+
+An intentional goal of this model is to be extremely SSR-friendly and align (mostly) well with [hypermedia-driven principles](https://hypermedia.systems/). When used in a framework like Astro, initial component state can start in the server, be encoded directly into your HTML, and then be seamlessly hydrated on the client without any layout shift issues or flashes of new content once JavaScript is executed.
+
+```astro
+---
+// State starts in the server!
+const initial = "Hello world!"
+---
+
+<log-text>
+  <p $state="text">{initial}</p>
+</log-text>
+
+<script>
+  import { Stellar } from 'stellar-element';
+  class LogText extends Stellar {
+    constructor() {
+      super();
+      console.log(this.text) // Logs "Hello world!"
+      this.text = "Hey there!" // Rerender paragraph element with text "Hey there!"
+      console.log(this.text) // Logs "Hey there!"
+    }
+  }
+  customElements.define('log-text', LogText);
 </script>
 ```
 
