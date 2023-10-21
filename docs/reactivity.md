@@ -160,7 +160,7 @@ const initial = "Hello world!"
 
 Create reactive state tied to an element property.
 
-**Syntax**
+### Syntax
 
 ```
 $state:property="name"
@@ -172,7 +172,7 @@ _Shorthand:_
 $property="name"
 ```
 
-**Usage**
+### Usage
 
 Similar, to the `$state` directive this will create a piece of state, but instead of reactively updating the element's text content changes to state created with the `$state:property` directive will update an element's property.
 
@@ -180,7 +180,7 @@ Similar, to the `$state` directive this will create a piece of state, but instea
 
 Create reactive state tied to an element's inner HTML.
 
-**Syntax**
+### Syntax
 
 ```
 $state:html="name"
@@ -192,7 +192,7 @@ _Shorthand:_
 $html="name"
 ```
 
-**Usage**
+### Usage
 
 Similar, to the `$state` directive this will create a piece of state, but instead of reactively updating the element's text content changes to state created with the `$state:html` directive will update an element's inner HTML.
 
@@ -200,13 +200,13 @@ Similar, to the `$state` directive this will create a piece of state, but instea
 
 Bind an element's text content to some existing state.
 
-**Syntax**
+### Syntax
 
 ```
 $bind="statename"
 ```
 
-**Usage**
+### Usage
 
 The `$bind` directive can be thought of as a way to reflect existing state (unaltered) somewhere else in your component. If you're looking to create new (alterted) state based on other state, see the [`$derive` directive](#derive).
 
@@ -243,13 +243,13 @@ You can think of this as Stellar's way of working around not using a templating 
 
 Bind an element property to some existing state.
 
-**Syntax**
+### Syntax
 
 ```
 $bind:property="statename"
 ```
 
-**Usage**
+### Usage
 
 Like the `$bind` directive, `$bind:property` is a way of reflecting existing state (unaltered) to an element's property, such as the `value` property.
 
@@ -298,12 +298,12 @@ However, like Svelte [says in their tutorial](https://learn.svelte.dev/tutorial/
 
 Derive new state based on existing state(s).
 
-**Syntax**
+### Syntax
 
 ```
 $derive="callback(...statenames)"
 ```
 
-**Usage**
+### Usage
 
 Todo...

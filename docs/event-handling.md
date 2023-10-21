@@ -6,13 +6,13 @@ Todo: Intro...
 
 Create and attach an event listener to an element.
 
-**Syntax**
+### Syntax
 
 ```
 @eventname="callback"
 ```
 
-**Usage**
+### Usage
 
 Event directives are a concise way to declare event-based behavior in a Stellar component. An event directive is defined with an `@` symbol, followed by any event name, followed by the name of a method that will be called when the event is fired.
 
@@ -43,6 +43,6 @@ In the example below, a `<button>` tag contains a click event directive. When th
 >
 > Correctly removing event listeners is extremely important when using features like the View Transition API to persist custom elements across different page transitions.
 
-**Coming later: Event modifiers**
+### Coming later: Event modifiers
 
 At this time, there is _**no way**_ to modify event directives, such as configuring an event to run once. A future release should address this my implementing "event modifiers". The syntax will likely take inspiration from Vue and use a dot syntax to declare event modification. For example: `@click.once="callback"`.
