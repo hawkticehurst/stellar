@@ -132,7 +132,7 @@ It is recommended that you scope your state to be as small as possible. In pract
 
 ### State should start in the server
 
-An intentional goal of this model is to be extremely SSR-friendly and align (mostly) well with [hypermedia-driven principles](https://hypermedia.systems/). When used in a framework like Astro, initial component state can start in the server, be encoded directly into your HTML, and then be seamlessly hydrated on the client without any layout shift issues or flashes of new content once JavaScript is executed.
+An intentional goal of this model is to be extremely SSR-friendly and align (mostly) well with [hypermedia-driven principles](https://hypermedia.systems/). When used in a framework like Astro, initial component state can start in the server, be encoded directly into your HTML, and then be seamlessly hydrated on the client without any layout shift issues or flashes of new content once JavaScript is executed. Read our [Using Stellar and Astro docs](./using-astro.md) for even more information about this method of building web applications.
 
 ```astro
 ---
