@@ -3,6 +3,10 @@ docs/
 demos/
 examples/
 
+# assets
+assets/
+!assets/banner.png
+
 # source code
 index.ts
 
