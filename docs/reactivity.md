@@ -211,7 +211,7 @@ A classic example of needing to reactively set inner HTML content is when buildi
     updateEditor = () => {
       // Set inner HTML of div element with the parsed markdown from text area
       this.output = marked(this.input ?? '');
-    }
+    };
   }
   customElements.define('markdown-editor', MarkdownEditor);
 </script>
@@ -317,7 +317,7 @@ However, like Svelte [says in their tutorial](https://learn.svelte.dev/tutorial/
 
 ## $derive
 
-Derive new state based on existing state(s).
+Derive new state based on existing state(s), tied to an element's text content.
 
 ### Syntax
 
@@ -327,4 +327,64 @@ $derive="callback(...statenames)"
 
 ### Usage
 
-Todo...
+The `$derive` directive can be used to create new (alterted) state based on other state in a Stellar component.
+
+Inspired by [Vue computed properties](https://vuejs.org/guide/essentials/computed.html), this directive let's you declare a callback method that accepts component state (defined using `$state` or `$state:property`) and will be executed whenever that dependent state changes. The newly created state will be
+
+```html
+<derived-state>
+  <button @click="increment">
+    Clicked <span $state="count">0</span> times
+  </button>
+  <p>Doubled: <span $derive="double(count)">0</span></p>
+</derived-state>
+
+<script type="module">
+  import { Stellar } from 'slim-element';
+  class DerivedState extends Stellar {
+    increment = () => this.count++;
+    double = (count) => count * 2; // Whenever the count state is changed this method will be executed
+  }
+  customElements.define('derived-state', DerivedState);
+</script>
+```
+
+In other web frameworks the above markup would usually look something like this:
+
+```html
+<!-- This is fake psuedo-code! -->
+<button>Clicked {count} times</button>
+<p>Doubled: {count * 2}</p>
+```
+
+Like `$bind` this is another workaround for not using a templating syntax and consequence of encoding state into HTML.
+
+### Deriving multiple state values
+
+If you would like to derive new state based on multiple pieces of existing state, simply add the state names as a comma separated list to the callback method (i.e. pass the state names as parameters to the method), like so:
+
+```html
+<span $derive="callback(state1, state2, state3, ...)"></span>
+```
+
+Here's an example:
+
+```html
+<slider-math>
+  <input type="range" $bind:value="a" value="1" min="0" max="10" />
+  <input type="range" $bind:value="b" value="2" min="0" max="10" />
+  <input type="range" $bind:value="c" value="3" min="0" max="10" />
+  <p>
+    <span $state="a">1</span> + <span $state="b">2</span> +
+    <span $state="c">3</span> =
+    <span $derive="sum(a,b,c)">6</span>
+  </p>
+</slider-math>
+<script type="module">
+  import { Stellar } from 'stellar-element';
+  class SliderMath extends Stellar {
+    sum = (a, b, c) => a + b + c; // Whenever state a, b, or c change this method will be executed
+  }
+  customElements.define('slider-math', SliderMath);
+</script>
+```
