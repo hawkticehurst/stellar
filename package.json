@@ -1,7 +1,7 @@
 {
   "name": "stellar-element",
   "description": "A stellar way to build custom elements.",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "author": "Hawk Ticehurst",
   "license": "MIT",
   "type": "module",
