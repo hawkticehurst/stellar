@@ -86,6 +86,8 @@
         passDataIntoChild = () => {
           const child = this.querySelector('child-component');
           child.setCount(this.count);
+          // Also update message state within parent component
+          this.message = this.count;
         };
       }
       class ChildComponent extends Stellar {
