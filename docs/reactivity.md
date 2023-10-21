@@ -16,7 +16,7 @@ Reactive directives include:
 - [$bind](#bind)
 - [$bind:_property_](#bindproperty)
 - [$derive](#derive)
-- [$derive:_property_](#deriveproperty) [Under Consideration]
+- [$derive:_property_](#deriveproperty-under-consideration) [Under Consideration]
 
 ## $state
 
