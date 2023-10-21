@@ -2,7 +2,7 @@
 
 A stellar way to build custom elements.
 
-<img src="./assets/stellar-banner.png" alt="Stellar logo" width="100%" height="auto" />
+<img src="./assets/banner.png" alt="Stellar logo" width="100%" height="auto" />
 
 ## Usage
 
