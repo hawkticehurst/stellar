@@ -195,6 +195,19 @@ export class Stellar extends HTMLElement {
         });
         this.#initState(elem.disabled, stateName);
       }
+    } else if (attr.name === '$state:checked' || attr.name === '$checked') {
+      if (elem instanceof HTMLInputElement) {
+        Object.defineProperty(this, stateName, {
+          get() {
+            return elem.checked;
+          },
+          set(value: boolean) {
+            elem.checked = value;
+          },
+          enumerable: true,
+        });
+        this.#initState(elem.checked, stateName);
+      }
     }
     removeAttribute(elem, attr);
   }
