@@ -21,7 +21,7 @@ Reactive directives include:
 
 Create reactive state tied to an element's text content.
 
-**Syntax**
+### Syntax
 
 ```
 $state="name"
@@ -33,7 +33,7 @@ _Shorthand:_
 $="name"
 ```
 
-**Usage**
+### Usage
 
 The `$state` directive allows you to define a piece of reactive state in HTML that is then made accessible within JavaScript. If you're coming from another web framework, a new concept to become familiar with is that state is automatically initialized based on the existing text content of a stateful element.
 
@@ -78,7 +78,7 @@ To provide a more complete example below, state defined on the span element will
 
 A by-product of this model is that state must _always_ be tied to a DOM node –– state (and all reactive directives for the matter) must be explicitly defined using an HTML element.
 
-**Initializing state in JavaScript**
+### Initializing state in JavaScript
 
 If for whatever reason you can't or don't want to rely on auto-initialization of state based on the text content of a stateful element, you can always manually initialize the state in the `constructor` method of any Stellar component.
 
@@ -107,7 +107,7 @@ If for whatever reason you can't or don't want to rely on auto-initialization of
 </script>
 ```
 
-**Scoping state**
+### Scoping state
 
 It is recommended that you scope your state to be as small as possible. In practice this usually means using a lot of `<span>` tags within your markup to denote pockets of reactivity.
 
@@ -128,7 +128,7 @@ It is recommended that you scope your state to be as small as possible. In pract
 </script>
 ```
 
-**State starts in the server**
+### State should start in the server
 
 An intentional goal of this model is to be extremely SSR-friendly and align (mostly) well with [hypermedia-driven principles](https://hypermedia.systems/). When used in a framework like Astro, initial component state can start in the server, be encoded directly into your HTML, and then be seamlessly hydrated on the client without any layout shift issues or flashes of new content once JavaScript is executed.
 
