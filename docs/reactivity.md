@@ -132,29 +132,35 @@ It is recommended that you scope your state to be as small as possible. In pract
 
 ### State should start in the server
 
-An intentional goal of this model is to be extremely SSR-friendly and align (mostly) well with [hypermedia-driven principles](https://hypermedia.systems/). When used in a framework like Astro, initial component state can start in the server, be encoded directly into your HTML, and then be seamlessly hydrated on the client without any layout shift issues or flashes of new content once JavaScript is executed. Read our [Using Stellar and Astro docs](./using-astro.md) for even more information about this method of building web applications.
+An intentional goal of this model is to be extremely SSR-friendly and align (mostly) well with [hypermedia-driven principles](https://hypermedia.systems/). While most of the other examples in our documentation demonstrate handwriting state directly inside HTML elements, the real use case and goal is to declare initial state in your server and pass the state into Stellar components using the templating language of your server framework.
 
-```astro
+When used in a framework like Astro, initial component state can start in the server, be encoded directly into your HTML, and then be seamlessly hydrated on the client without any layout shift issues or flashes of new content once JavaScript is parsed and executed. Read our [Using Stellar and Astro docs](./using-astro.md) for even more information about this method of building web applications.
+
+```jsx
 ---
 // State starts in the server!
 const initial = "Hello world!"
+const count = 0;
 ---
 
-<log-text>
+<hydrate-server-state>
   <p $state="text">{initial}</p>
-</log-text>
+  <button @click="increment">Count is: <span $state="count">{count}</span>
+</hydrate-server-state>
 
 <script>
   import { Stellar } from 'stellar-element';
-  class LogText extends Stellar {
+  class HydrateServerState extends Stellar {
     constructor() {
       super();
       console.log(this.text) // Logs "Hello world!"
       this.text = "Hey there!" // Update paragraph element with text "Hey there!"
       console.log(this.text) // Logs "Hey there!"
     }
+    // Increment count state and update span element with new count
+    increment = () => this.count++;
   }
-  customElements.define('log-text', LogText);
+  customElements.define('hydrate-server-state', HydrateServerState);
 </script>
 ```
 
