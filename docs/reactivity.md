@@ -403,6 +403,7 @@ Here's an example:
     <span $derive="sum(a,b,c)">6</span>
   </p>
 </slider-math>
+
 <script type="module">
   import { Stellar } from 'stellar-element';
   class SliderMath extends Stellar {
