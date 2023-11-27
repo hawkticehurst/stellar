@@ -1,7 +1,5 @@
 # Event handling
 
-Todo: Intro...
-
 ## @_eventname_
 
 Create and attach an event listener to an element.
