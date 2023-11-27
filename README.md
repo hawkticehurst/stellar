@@ -60,6 +60,10 @@ Learn more by reading our documentation below.
 - [Reactivity](./docs/reactivity.md)
 - [Using Stellar and Astro](./docs/using-astro.md)
 
+## Examples
+
+A growing catalog of example code can be found in the [`examples` directory](https://github.com/hawkticehurst/stellar/tree/main/examples) of this repo.
+
 ## Learn more about HTML web components
 
 These are some great posts that talk about HTML web components in general –– what they are, how they work, etc.
