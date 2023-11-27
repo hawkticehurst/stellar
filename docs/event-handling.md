@@ -35,9 +35,9 @@ In the example below, a `<button>` tag contains a click event directive. When th
 ```
 
 > [!IMPORTANT]  
-> It is highly reccommended that callback methods are implemented using arrow function syntax.
+> It is highly recommended that callback methods are implemented using arrow function syntax (i.e. `hello = () => {}`).
 >
-> Stellar will automatically add and remove event listeners when a custom element is connected and disconnected from the DOM. While, regular method syntax works when adding event listeners, it will often break when removing event listeners due to improper binding of `this`.
+> Stellar will automatically add and remove event listeners when a custom element is connected and disconnected from the DOM. While, regular method syntax works when adding event listeners, it will often break when removing event listeners due to improper binding of `this`. Using arrow function syntax is the easiest way to ensure that `this` is correctly bound.
 >
 > Correctly removing event listeners is extremely important when using features like the View Transition API to persist custom elements across different page transitions.
 
