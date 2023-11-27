@@ -1,6 +1,6 @@
 # Stellar
 
-A stellar way to build custom elements.
+A stellar way to build reactive custom elements.
 
 <img src="./assets/banner.png" alt="Stellar logo" width="100%" height="auto" />
 
