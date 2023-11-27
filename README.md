@@ -10,6 +10,9 @@ A stellar way to build reactive custom elements.
 npm install stellar-element@latest
 ```
 
+> [!WARNING]
+> _Stellar is still being actively developed, so all the usual disclaimers apply – here be dragons and such._
+
 ## What is Stellar?
 
 Stellar is a tiny framework for building a specific flavor of web components called "HTML Web Components."
@@ -66,12 +69,12 @@ A growing catalog of example code can be found in the [`examples` directory](htt
 
 ## Learn more about HTML web components
 
-These are some great posts that talk about HTML web components in general –– what they are, how they work, etc.
+These are some great posts that talk about HTML web components in general –– what they are, how they work, and so on.
 
-- [HTML web components](https://adactio.com/journal/20618) - Jeremy Keith
-- [HTML Web Components](https://blog.jim-nielsen.com/2023/html-web-components/) – Jim Nielsen
-- [HTML Web Components are Just JavaScript?](https://www.oddbird.net/2023/11/17/components/) – Miriam Eric Suzanne
-- [HTML Web Components](https://gomakethings.com/html-web-components/) – Chris Ferdinandi
+- [HTML web components](https://adactio.com/journal/20618) by Jeremy Keith
+- [HTML Web Components](https://blog.jim-nielsen.com/2023/html-web-components/) by Jim Nielsen
+- [HTML Web Components are Just JavaScript?](https://www.oddbird.net/2023/11/17/components/) by Miriam Eric Suzanne
+- [HTML Web Components](https://gomakethings.com/html-web-components/) by Chris Ferdinandi
 
 ## Similar projects
 
