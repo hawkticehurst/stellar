@@ -34,7 +34,7 @@ In the regular web component, component markup is dynamically generated at runti
 
 One of the big pain points with HTML web components is that the custom elements API used to build these components is fairly low-level and verbose. Stellar steps in, just like regular web components frameworks (such as Lit or FAST), to improve the ergonomics of building HTML web components.
 
-This is achieved by adding a handful of custom attributes called "directives" that implement event handling and a reactivity model. With Stellar, implementing functionality to the above counter button looks like this:
+This is achieved by adding a handful of custom attributes called "directives" that implement event handling and a reactivity model. With Stellar, implementing a counter button looks like this:
 
 ```html
 <counter-button>
