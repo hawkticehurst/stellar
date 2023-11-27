@@ -75,7 +75,7 @@ These are some great posts that talk about HTML web components in general ––
 
 ## Similar projects
 
-Here are some projects that are also working on improving the ergonomics of building HTML web components. Check them out!
+Stellar is not the only project helping people build HTML web components. Check them out!
 
 - [WebC](https://github.com/11ty/webc)
 - [Enhance](https://enhance.dev/)
