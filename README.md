@@ -75,6 +75,7 @@ These are some great posts that talk about HTML web components in general ––
 - [HTML Web Components](https://blog.jim-nielsen.com/2023/html-web-components/) by Jim Nielsen
 - [HTML Web Components are Just JavaScript?](https://www.oddbird.net/2023/11/17/components/) by Miriam Eric Suzanne
 - [HTML Web Components](https://gomakethings.com/html-web-components/) by Chris Ferdinandi
+- [A year working with HTML Web Components](https://hawkticehurst.com/writing/a-year-working-with-html-web-components/) by Hawk Ticehurst
 
 ## Similar projects
 
