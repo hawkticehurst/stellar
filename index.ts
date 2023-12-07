@@ -14,7 +14,7 @@ export class Stellar extends HTMLElement {
   private _tracked: { elem: HTMLElement; event: string; fn: EventListener }[];
   private _bind: { elem: HTMLElement; name: string; property: string }[];
   private _derived: { elem: HTMLElement; method: string; vars: string[] }[];
-  protected refs: Record<string, HTMLElement>;
+  public refs: Record<string, HTMLElement>;
   constructor() {
     super();
     this._tracked = [];
@@ -52,19 +52,19 @@ export class Stellar extends HTMLElement {
       for (const attr of node.attributes) {
         switch (true) {
           case attr.name === ':ref':
-            changes.push(() => this.#setRef(attr));
+            changes.push(() => this.setRef(attr));
             break;
           case attr.name.startsWith('$bind'):
-            this.#bindProperty(attr);
+            this.bindProperty(attr);
             break;
           case attr.name === '$derive':
-            this.#deriveState(attr);
+            this.deriveState(attr);
             break;
           case attr.name.startsWith('$'):
-            changes.push(() => this.#setState(attr));
+            changes.push(() => this.setState(attr));
             break;
           case attr.name.startsWith('@'):
-            changes.push(() => this.#setEventHandler(attr));
+            changes.push(() => this.setEventHandler(attr));
             break;
         }
       }
@@ -72,18 +72,12 @@ export class Stellar extends HTMLElement {
     for (const change of changes) {
       change();
     }
-  }
-  connectedCallback() {
+    // Attach event listeners
     for (const { elem, event, fn } of this._tracked) {
       elem?.addEventListener(event, fn);
     }
   }
-  disconnectedCallback() {
-    for (const { elem, event, fn } of this._tracked) {
-      elem?.removeEventListener(event, fn);
-    }
-  }
-  #setEventHandler(attr: Attr) {
+  private setEventHandler(attr: Attr) {
     const elem = attr.ownerElement as HTMLElement;
     const { name: event, value: method } = attr;
     this._tracked.push({
@@ -93,7 +87,7 @@ export class Stellar extends HTMLElement {
     });
     removeAttribute(elem, attr);
   }
-  #setState(attr: Attr) {
+  private setState(attr: Attr) {
     const elem = attr.ownerElement as HTMLElement;
     const stateName = attr.value;
     const bound: ((value: any) => void)[] = [];
@@ -141,7 +135,7 @@ export class Stellar extends HTMLElement {
         },
         enumerable: true,
       });
-      this.#initState(elem.textContent, stateName);
+      this.initState(elem.textContent, stateName);
     } else if (attr.name === '$state:value' || attr.name === '$value') {
       if (
         elem instanceof HTMLInputElement ||
@@ -157,7 +151,7 @@ export class Stellar extends HTMLElement {
           },
           enumerable: true,
         });
-        this.#initState(elem.value, stateName);
+        this.initState(elem.value, stateName);
       } else {
         console.error(
           'Error: Attribute `$state:value` can only be set on elements that have a `value` property.'
@@ -173,7 +167,7 @@ export class Stellar extends HTMLElement {
         },
         enumerable: true,
       });
-      this.#initState(elem.innerHTML, stateName);
+      this.initState(elem.innerHTML, stateName);
     } else if (attr.name === '$state:disabled' || attr.name === '$disabled') {
       if (
         elem instanceof HTMLButtonElement ||
@@ -193,7 +187,7 @@ export class Stellar extends HTMLElement {
           },
           enumerable: true,
         });
-        this.#initState(elem.disabled, stateName);
+        this.initState(elem.disabled, stateName);
       }
     } else if (attr.name === '$state:checked' || attr.name === '$checked') {
       if (elem instanceof HTMLInputElement) {
@@ -206,17 +200,17 @@ export class Stellar extends HTMLElement {
           },
           enumerable: true,
         });
-        this.#initState(elem.checked, stateName);
+        this.initState(elem.checked, stateName);
       }
     }
     removeAttribute(elem, attr);
   }
-  #initState(initial: string | boolean | null, stateName: string) {
+  private initState(initial: string | boolean | null, stateName: string) {
     if (initial) {
       (this as any)[stateName] = initial;
     }
   }
-  #setRef(attr: Attr) {
+  private setRef(attr: Attr) {
     const elem = attr.ownerElement as HTMLElement;
     const refName = attr.value;
     Object.defineProperty(this.refs, refName, {
@@ -227,7 +221,7 @@ export class Stellar extends HTMLElement {
     });
     removeAttribute(elem, attr);
   }
-  #bindProperty(attr: Attr) {
+  private bindProperty(attr: Attr) {
     // Todo: Abstract function to bind any property
     const elem = attr.ownerElement as HTMLElement;
     if (attr.name === '$bind') {
@@ -250,7 +244,7 @@ export class Stellar extends HTMLElement {
     }
     removeAttribute(elem, attr);
   }
-  #deriveState(attr: Attr) {
+  private deriveState(attr: Attr) {
     const elem = attr.ownerElement as HTMLElement;
     const value = attr.value.split('(');
     const method = value[0];
