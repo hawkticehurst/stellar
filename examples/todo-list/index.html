@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo List</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: system-ui, sans-serif;
+        font-weight: 500;
+        display: grid;
+        place-content: center;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+      }
+      todo-list input {
+        font-family: inherit;
+        font-size: inherit;
+        font-weight: inherit;
+        color: black;
+        background-color: #efefef;
+        border: 2px solid #000;
+        border-radius: 6px;
+        padding: 6px 10px;
+      }
+			todo-list .todos {
+				margin: 20px 0;
+				display: flex;
+				flex-direction: column;
+				gap: 10px;
+			}
+			todo-list .todo {
+				display: flex;
+				align-items: center;
+				gap: 4px;
+				cursor: pointer;
+			}
+			:root {
+        --checkbox-color: #000;
+        --checkbox-disabled-color: #858585;
+        --checkbox-size: 24px;
+      }
+			todo-list input[type='checkbox'] {
+        -webkit-appearance: none;
+        appearance: none;
+        margin: 0;
+        width: var(--checkbox-size);
+        height: var(--checkbox-size);
+        border: 2px solid var(--checkbox-color);
+        border-radius: 6px;
+        display: grid;
+        place-content: center;
+        cursor: pointer;
+      }
+      todo-list input[type='checkbox']::before {
+        --checkmark-size: 12px;
+        content: '';
+        box-shadow: inset var(--checkmark-size) var(--checkmark-size)
+          var(--checkbox-color);
+        background-color: CanvasText;
+        width: var(--checkmark-size);
+        height: var(--checkmark-size);
+        clip-path: polygon(
+          12.08% 50.81%,
+          0.24% 67.73%,
+          42.23% 97.13%,
+          99.25% 15.68%,
+          81.01% 2.91%,
+          35.84% 67.44%
+        );
+        transform: scale(0);
+        transition: transform 100ms ease-in-out;
+      }
+      todo-list input[type='checkbox']:checked::before {
+        transform: scale(1);
+      }
+      todo-list input[type='checkbox']:focus-visible {
+        outline: none;
+        border-color: #015fcc;
+      }
+			todo-list label:has(input[type="checkbox"]:checked) {
+				text-decoration: line-through;
+			}
+			todo-list button {
+        font-family: inherit;
+        font-size: 0.9rem;
+        font-weight: inherit;
+        color: black;
+        background-color: #efefef;
+        border: 2px solid #000;
+        border-radius: 8px;
+        padding: 4px 8px;
+      }
+      todo-list button:hover,
+      todo-list button:active {
+        cursor: pointer;
+        background-color: #e6e6e6;
+      }
+    </style>
+  </head>
+  <body>
+    <todo-list>
+			<input type="text" @keydown="addTodo" placeholder="Add todo item">
+			<section :ref="todos" class="todos" @change="updateRemainder">
+				<label class="todo">
+					<input type="checkbox"> Pick up groceries
+				</label>
+				<label class="todo">
+					<input type="checkbox"> Go on a walk
+				</label>
+			</section>
+			<p><span $state="remaining">2</span> remaining</p>
+			<button @click="clearTodos">Clear completed</button>
+			<template>
+				<label class="todo">
+					<input type="checkbox">
+				</label>
+			</template>
+    </todo-list>
+    <script type="module">
+      import { Stellar } from 'https://www.unpkg.com/stellar-element@0.3.0/build/index.js';
+      class TodoList extends Stellar {
+				constructor() {
+					super();
+					this.template = this.querySelector('template');
+				}
+        addTodo = (event) => {
+					if (event.key !== "Enter") return;
+					const todo = this.template.content.cloneNode(true);
+					const text = document.createTextNode(event.target.value);
+					todo.children[0].appendChild(text);
+					this.refs.todos.appendChild(todo);
+					event.target.value = "";
+					this.updateRemainder();
+				}
+				clearTodos = () => {
+					const completed = this.refs.todos.querySelectorAll('input[type="checkbox"]:checked');
+					for (const todo of completed) {
+						this.refs.todos.removeChild(todo.parentNode);
+					}
+					this.updateRemainder();
+				}
+				updateRemainder = () => {
+					const remaining = this.refs.todos.querySelectorAll('input[type="checkbox"]:not(:checked)');
+					this.remaining = remaining.length;
+				}
+      }
+      customElements.define('todo-list', TodoList);
+    </script>
+  </body>
+</html>
