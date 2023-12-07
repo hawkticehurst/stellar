@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "module": "esnext",
+    "target": "ESNext",
+    "module": "ESNext",
     "outDir": "build",
-    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "declaration": true,
     "strict": true,
     "allowJs": true,
