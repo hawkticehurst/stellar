@@ -33,7 +33,7 @@ function effect(callback) {
 }
 
 function coerce(value) {
-	if (!value) return;
+	if (value === null || value === undefined) return;
 	if (value === 'false' || value === 'true') return value === 'true';
 	if (!isNaN(Number(value))) return Number(value);
 	try {
