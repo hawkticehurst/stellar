@@ -53,7 +53,7 @@ class SignalElement extends HTMLElement {
 		this.isHTML = this.getAttribute('render') === 'html';
 		this.mutation = (state) => state;
 		const initial = this.isHTML
-			? coerce(this.getAttribute('state')) || this.innerHTML
+			? coerce(this.getAttribute('state')) || this.getHTML()
 			: coerce(this.getAttribute('state')) || coerce(this.textContent);
 		this.signal = new Signal.State(initial);
 		this.cleanup = effect(() => this._render());
