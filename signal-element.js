@@ -50,19 +50,41 @@ function coerce(value) {
 class SignalElement extends HTMLElement {
 	constructor() {
 		super();
-		this.isHTML = this.getAttribute('render') === 'html';
-		this.mutation = (state) => state;
-		const initial = this.isHTML
-			? coerce(this.getAttribute('state')) || this.getHTML()
-			: coerce(this.getAttribute('state')) || coerce(this.textContent);
-		this.signal = new Signal.State(initial);
-		this.cleanup = effect(() => this._render());
+		this.isBound = this.getAttribute('bind:value') !== null;
+		if (this.isBound) {
+			this.targetId = this.getAttribute('bind:value');
+			this.boundElem = this.children[0];
+		} else {
+			this.isHTML = this.getAttribute('render') === 'html';
+			this.mutation = (state) => state;
+			const initial = this.isHTML
+				? coerce(this.getAttribute('state')) || this.getHTML()
+				: coerce(this.getAttribute('state')) || coerce(this.textContent);
+			this.signal = new Signal.State(initial);
+			this.cleanup = effect(() => this._render());
+		}
 	}
 	connectedCallback() {
-		this._render();
+		if (this.isBound) {
+			this.targetElem = document.getElementById(this.targetId);
+			if (!this.targetElem) {
+				throw new Error(`Bind target element with id "${this.targetId}" not found.`);
+			}
+			this.boundElem.addEventListener('input', () => {
+				this.targetElem.state = this.boundElem.value;
+			});
+		} else {
+			this._render();
+		}
 	}
 	disconnectedCallback() {
-		this.cleanup();
+		if (this.isBound) {
+			this.boundElem.removeEventListener('input', () => {
+				this.targetElem.state = this.boundElem.value;
+			});
+		} else {
+			this.cleanup();
+		}
 	}
 	_render() {
 		const value = this.mutation(this.signal.get());
