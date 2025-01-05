@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Temporary Test File</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			margin: 0;
+			padding: 0 20px;
+			background: #181818;
+			color: #fafafa;
+		}
+	</style>
+</head>
+<body>
+	<h1>Temporary Test File for Signal Element</h1>
+
+	<x-signal bind:value="a">
+		<input type="number" value="1" min="0" max="10" />
+	</x-signal>
+	<x-signal bind:value="a">
+		<input type="range" value="1" min="0" max="10" />
+	</x-signal>
+	<x-signal bind:value="b">
+		<input type="number" value="1" min="0" max="10" />
+	</x-signal>
+	<x-signal bind:value="b">
+		<input type="range" value="1" min="0" max="10" />
+	</x-signal>
+	<p>
+		<x-signal id="a">1</x-signal> + <x-signal id="b">2</x-signal> =
+		<x-signal id="sum">3</x-signal>
+	</p>
+
+	<script type="module">
+		import "./signal-element.js";
+		const a = document.querySelector("#a");
+		const b = document.querySelector("#b");
+		const sum = document.querySelector("#sum");
+		sum.computed = () => a.state + b.state;
+	</script>
+</body>
+</html>

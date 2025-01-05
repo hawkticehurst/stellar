@@ -16,13 +16,15 @@
     "url": "https://github.com/hawkticehurst/stellar/issues"
   },
   "scripts": {
+    "dev": "vite --open",
     "build": "tsc -p ./tsconfig.json",
     "fmt": "prettier --write \"**/*.{ts,js,md,html,css,json}\"",
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
     "prettier": "^3.0.3",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "vite": "^6.0.7"
   },
   "prettier": {
     "printWidth": 80,
