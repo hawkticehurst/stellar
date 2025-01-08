@@ -1,14 +1,16 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "module": "ESNext",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "outDir": "build",
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "declaration": true,
     "strict": true,
     "allowJs": true,
-    "removeComments": true
+    "removeComments": true,
+    "strictPropertyInitialization": false
   },
-  "include": ["index.ts"],
+  "include": ["src/**.ts"],
   "exclude": ["node_modules", "examples", "docs"]
 }
