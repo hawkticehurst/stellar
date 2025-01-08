@@ -109,6 +109,11 @@ class SignalElement extends HTMLElement {
 		this.signal = new Signal.Computed(callback);
 		this.cleanup = effect(() => this._render());
 	}
+	set store(signal) {
+		this.cleanup();
+		this.signal = signal;
+		this.cleanup = effect(() => this._render());
+	}
 }
 
 customElements.define('x-signal', SignalElement);
