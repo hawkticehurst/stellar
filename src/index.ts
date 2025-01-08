@@ -1,5 +1,5 @@
 import { Stellar } from "./stellar.js";
-import type { SignalElement } from "./signal.js";
+import { SignalElement } from "./signal.js";
 import { isCustomElement } from "./utils/helpers.js";
 
 export function component(elemName: string, functions: any[]) {
@@ -35,6 +35,9 @@ export function signal<T>(query: string): SignalElement<T> {
 		const name = signalName ? signalName : "x-signal";
 		const node = document.querySelector(`${elem} ${name}`);
 		if (node && node.tagName === "X-SIGNAL") {
+			if (!customElements.get("x-signal")) {
+				customElements.define("x-signal", SignalElement);
+			}
 			return node as SignalElement<T>;
 		} else {
 			throw new Error(`HTML signal ${name} does not exist in the ${elem} Stellar component`);

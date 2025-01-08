@@ -34,21 +34,12 @@ export class Stellar extends HTMLElement {
 			NodeFilter.SHOW_ELEMENT,
 			{ acceptNode: filter }
 		);
-		let hasSignal = false;
 		while ((node = iterator.nextNode())) {
 			if (!node || !(node instanceof HTMLElement)) return;
-			if (node.tagName === "X-SIGNAL") {
-				hasSignal = true;
-			}
 			for (const attr of node.attributes) {
 				if (attr.name.startsWith('@')) {
 					changes.push(() => this.setEventHandler(attr));
 				}
-			}
-		}
-		if (hasSignal) {
-			if (!customElements.get("x-signal")) {
-				customElements.define("x-signal", SignalElement);
 			}
 		}
 		for (const change of changes) {
