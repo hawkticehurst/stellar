@@ -21,6 +21,9 @@
     "fmt": "prettier --write \"**/*.{ts,js,md,html,css,json}\"",
     "prepublishOnly": "npm run build"
   },
+  "dependencies": {
+    "signal-polyfill": "^0.2.1"
+  },
   "devDependencies": {
     "prettier": "^3.0.3",
     "typescript": "^5.2.2",
