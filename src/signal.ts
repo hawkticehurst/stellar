@@ -37,7 +37,7 @@ export class SignalElement<T> extends HTMLElement {
 			}
 			// Initialize signal
 			this.signal = new Signal.State(initial);
-			this.cleanup = effect(() => this._render());
+			this.cleanup = effect(() => this.#render());
 		}
 	}
 	connectedCallback() {
@@ -52,7 +52,7 @@ export class SignalElement<T> extends HTMLElement {
 				}
 			});
 		} else {
-			this._render();
+			this.#render();
 		}
 	}
 	disconnectedCallback() {
@@ -66,7 +66,7 @@ export class SignalElement<T> extends HTMLElement {
 			this.cleanup();
 		}
 	}
-	private _render() {
+	#render() {
 		if (this.signal) {
 			const value = this.mutation(this.signal.get());
 			if (this.isHTML) {
@@ -88,16 +88,16 @@ export class SignalElement<T> extends HTMLElement {
 	}
 	set render(callback: (state: T) => unknown) {
 		this.mutation = callback;
-		this._render();
+		this.#render();
 	}
 	set computed(callback: () => T) {
 		this.cleanup();
 		this.signal = new Signal.Computed<T>(callback);
-		this.cleanup = effect(() => this._render());
+		this.cleanup = effect(() => this.#render());
 	}
 	set store(signal: Signal.State<T>) {
 		this.cleanup();
 		this.signal = signal;
-		this.cleanup = effect(() => this._render());
+		this.cleanup = effect(() => this.#render());
 	}
 }
