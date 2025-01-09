@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lifecycle Methods</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: system-ui, sans-serif;
+        font-weight: 500;
+        display: grid;
+        place-content: center;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+      }
+      button {
+        font-family: inherit;
+        font-size: inherit;
+        font-weight: inherit;
+        color: black;
+        background-color: #efefef;
+        border: 2px solid #000;
+        border-radius: 8px;
+        padding: 6px 10px;
+      }
+      button:hover,
+      button:active {
+        cursor: pointer;
+        background-color: #e6e6e6;
+      }
+			.container {
+				height: fit-content;
+			}
+			my-component p {
+				border: dashed 2px #1f1f1f;
+				border-radius: 8px;
+				padding: 1rem;
+			}
+    </style>
+  </head>
+  <body>
+		<component-controls>
+			<button @click="destroy">Destroy component</button>
+			<button @click="mount">Mount component</button>
+			<button @click="toggleAttribute">Change attribute</button>
+		</component-controls>
+		<section class="container">
+			<my-component greeting="Hello!">
+				<p>Hi! I'm a component that logs stuff. Open your console.</p>
+			</my-component>
+		</section>
+    <script type="module">
+      import { component, signal } from "../../src/index.ts";
+
+      function onMount() {
+				console.log("I've been mounted!");
+			}
+			function onDestroy() {
+				console.log("I'm about to be destroyed!");
+			}
+			function onAttributeChange(attribute, previousValue, currentValue) {
+				console.log(`Attribute '${attribute}' changed from '${previousValue}' to '${currentValue}'.`);
+			}
+      component("my-component", [onMount, onDestroy, onAttributeChange], ["greeting"]);
+
+			const myComponent = document.querySelector("my-component");
+			function destroy() {
+				myComponent.remove();
+			}
+			function mount() {
+				myComponent.setHTMLUnsafe("<p>Hi! I'm a component that logs stuff. Open your console.</p>");
+				const container = document.querySelector(".container");
+				container.appendChild(myComponent);
+			}
+			function toggleAttribute() {
+				if (myComponent.getAttribute("greeting") === "Hello!") {
+					myComponent.setAttribute("greeting", "Goodbye!");
+				} else {
+					myComponent.setAttribute("greeting", "Hello!");
+				}
+			}
+			component("component-controls", [destroy, mount, toggleAttribute]);
+    </script>
+  </body>
+</html>
