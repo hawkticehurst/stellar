@@ -1,4 +1,6 @@
 export function coerce(value: string | number | null | undefined) {
+	// If value is an empty string this represents an empty <x-signal></x-signal>
+	if (value === "") return value;
 	if (value === null || value === undefined) return;
 	// This doesn't differentiate between NaN and Infinity
 	// TODO: Need more robust check?
