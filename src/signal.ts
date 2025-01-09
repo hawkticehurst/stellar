@@ -33,9 +33,7 @@ export class SignalElement<T> extends HTMLElement {
 			} else {
 				// Default to initializing with text content
 				const content = this.textContent;
-				if (content) {
-					initial = coerce(content);
-				}
+				initial = coerce(content);
 			}
 			// Initialize signal
 			this.signal = new Signal.State(initial);
