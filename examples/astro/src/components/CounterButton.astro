@@ -7,17 +7,17 @@ const { count = 0 } = Astro.props;
 
 <counter-button>
 	<button @click="increment">
-		Clicked <span $state="count">{count}</span> times
+		Count is <x-signal>{count}</x-signal>
 	</button>
 </counter-button>
 
 <script>
-	import { Stellar } from 'stellar-element';
-	class CounterButton extends Stellar {
-		declare count: number;
-		increment = () => this.count++;
+	import { component, signal } from "../../../../src/index.ts";
+	const count = signal<number>("counter-button");
+	function increment() {
+		count.state = count.state + 1;
 	}
-	customElements.define('counter-button', CounterButton);
+	component('counter-button', [increment]);
 </script>
 
 <style>

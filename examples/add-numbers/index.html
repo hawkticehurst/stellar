@@ -44,25 +44,22 @@
   <body>
     <add-numbers>
       <p>
-        <span $state="expression">1 + 2 + 3 + 4</span> =
-        <span $state="sum">10</span>
+        <x-signal id="numbers" state="[1,2,3,4]">1 + 2 + 3 + 4</x-signal> =
+        <x-signal id="sum">10</x-signal>
       </p>
       <button @click="addNumber">Add number</button>
     </add-numbers>
     <script type="module">
-      import { Stellar } from 'https://www.unpkg.com/stellar-element@0.3.0/build/index.js';
-      class AddNumbers extends Stellar {
-        constructor() {
-          super();
-          this.numbers = [1, 2, 3, 4];
-        }
-        addNumber = () => {
-          this.numbers = [...this.numbers, this.numbers.length + 1];
-          this.expression = this.numbers.join(' + ');
-          this.sum = this.numbers.reduce((sum, current) => sum + current, 0);
-        };
+      import { component, signal } from "../../src/index.ts";
+
+      const numbers = signal("add-numbers #numbers");
+      const sum = signal("add-numbers #sum");
+      numbers.render = (state) => state.join(" + ");
+      function addNumber() {
+        numbers.state = [...numbers.state, numbers.state.length + 1];
+        sum.state = numbers.state.reduce((sum, current) => sum + current, 0);
       }
-      customElements.define('add-numbers', AddNumbers);
+      component("add-numbers", [addNumber]);
     </script>
   </body>
 </html>

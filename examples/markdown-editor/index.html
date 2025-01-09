@@ -76,16 +76,19 @@
   </head>
   <body>
     <markdown-editor>
-      <textarea @input="updateEditor" $value="input"># Hello markdown</textarea>
-      <div $html="output"><h1>Hello markdown</h1></div>
+      <textarea @input="updateEditor"># Hello markdown</textarea>
+      <x-signal render="html"><h1>Hello markdown</h1></x-signal>
     </markdown-editor>
     <script type="module">
-      import { Stellar } from 'https://www.unpkg.com/stellar-element@0.3.0/build/index.js';
+      import { component, signal } from "../../src/index.ts";
       import { marked } from 'https://unpkg.com/marked@9.0.3/lib/marked.esm.js';
-      class MarkdownEditor extends Stellar {
-        updateEditor = () => (this.output = marked(this.input ?? ''));
+
+      const textarea = document.querySelector("markdown-editor textarea");
+      const output = signal("markdown-editor");
+      function updateEditor() {
+        output.state = marked(textarea.value ?? "");
       }
-      customElements.define('markdown-editor', MarkdownEditor);
+      component("markdown-editor", [updateEditor]);
     </script>
   </body>
 </html>

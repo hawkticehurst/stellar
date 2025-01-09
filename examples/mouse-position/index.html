@@ -26,29 +26,30 @@
         height: 80%;
         display: grid;
         place-content: center;
+        cursor: crosshair;
+        user-select: none;
       }
     </style>
   </head>
   <body>
     <mouse-position @mousemove="setPosition">
       <p>
-        The mouse position is <span $state="x">0</span> x
-        <span $state="y">0</span>
+        The mouse position is <x-signal id="x">0</x-signal> x
+        <x-signal id="y">0</x-signal>
       </p>
     </mouse-position>
     <script type="module">
-      import { Stellar } from 'https://www.unpkg.com/stellar-element@0.3.0/build/index.js';
-      class MousePosition extends Stellar {
-        constructor() {
-          super();
-          this.clientRect = this.getBoundingClientRect();
-        }
-        setPosition = (event) => {
-          this.x = event.clientX - Number(this.clientRect.left.toFixed(0));
-          this.y = event.clientY - Number(this.clientRect.top.toFixed(0));
-        };
+      import { component, signal } from "../../src/index.ts";
+
+      const x = signal("mouse-position #x");
+      const y = signal("mouse-position #y");
+      const container = document.querySelector("mouse-position");
+      const clientRect = container.getBoundingClientRect();
+      function setPosition(event) {
+        x.state = event.clientX - Number(clientRect.left.toFixed(0));
+        y.state = event.clientY - Number(clientRect.top.toFixed(0));
       }
-      customElements.define('mouse-position', MousePosition);
+      component("mouse-position", [setPosition]);
     </script>
   </body>
 </html>

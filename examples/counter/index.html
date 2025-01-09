@@ -38,15 +38,17 @@
   <body>
     <counter-button>
       <button @click="increment">
-        Clicked <span $state="count">0</span> times
+        Clicked <x-signal>0</x-signal> times
       </button>
     </counter-button>
     <script type="module">
-      import { Stellar } from 'https://www.unpkg.com/stellar-element@0.3.0/build/index.js';
-      class CounterButton extends Stellar {
-        increment = () => this.count++;
+      import { component, signal } from "../../src/index.ts";
+
+      const count = signal("counter-button");
+      function increment() {
+        count.state = count.state + 1;
       }
-      customElements.define('counter-button', CounterButton);
+      component("counter-button", [increment]);
     </script>
   </body>
 </html>

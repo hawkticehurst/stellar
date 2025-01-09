@@ -47,14 +47,19 @@
   <body>
     <hello-world>
       <label for="name">Enter name:</label>
-      <input id="name" type="text" $bind:value="name" value="world" />
+      <input @input="displayMessage" id="name" type="text" value="World" />
       <p id="msg-label">Message:</p>
-      <p id="msg">Hello <span $state="name">world</span>!</p>
+      <p id="msg">Hello <x-signal>World</x-signal>!</p>
     </hello-world>
     <script type="module">
-      import { Stellar } from 'https://www.unpkg.com/stellar-element@0.3.0/build/index.js';
-      class HelloWorld extends Stellar {}
-      customElements.define('hello-world', HelloWorld);
+      import { component, signal } from "../../src/index.ts";
+      
+      const input = document.querySelector("hello-world input");
+      const name = signal("hello-world");
+      function displayMessage() {
+        name.state = input.value;
+      }
+      component("hello-world", [displayMessage]);
     </script>
   </body>
 </html>

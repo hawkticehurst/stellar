@@ -48,27 +48,33 @@
   <body>
     <message-listener @message="display">
       <dispatch-message>
-        <input type="text" $value="message" placeholder="Type a message" />
+        <input @keyup.enter="dispatch" type="text" placeholder="Type a message" />
         <button @click="dispatch">Dispatch message</button>
       </dispatch-message>
-      <p>Message: <span $state="message"></span></p>
+      <p>Message: <x-signal></x-signal></p>
     </message-listener>
     <script type="module">
-      import { Stellar } from 'https://www.unpkg.com/stellar-element@0.3.0/build/index.js';
-      class DispatchMessage extends Stellar {
-        dispatch = (event) => {
+      import { component, signal } from "../../src/index.ts";
+
+      const input = document.querySelector("dispatch-message input");
+      function dispatch(event) {
+        const message = input.value;
+        if (message.length > 0) {
           const msgEvent = new CustomEvent('message', {
             bubbles: true,
-            detail: { message: this.message ?? '' },
-          });
+            detail: { message: message ?? '' }
+          })
           event.target.dispatchEvent(msgEvent);
-        };
+          input.value = "";
+        }
       }
-      class MessageListener extends Stellar {
-        display = (event) => (this.message = event.detail.message);
+      component("dispatch-message", [dispatch]);
+
+      const message = signal("message-listener");
+      function display(event) {
+        message.state = event.detail.message;
       }
-      customElements.define('dispatch-message', DispatchMessage);
-      customElements.define('message-listener', MessageListener);
+      component("message-listener", [display]);
     </script>
   </body>
 </html>

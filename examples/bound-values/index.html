@@ -58,20 +58,23 @@
   <body>
     <bound-values>
       <button @click="increment">
-        Clicked <span $state="count">0</span> times
+        Clicked <x-signal id="count">0</x-signal> times
       </button>
       <button @click="increment">
-        Clicked <span $bind="count">0</span> times
+        Clicked <x-signal bind="#count">0</x-signal> times
       </button>
-      <input type="number" $bind:value="count" value="0" />
-      <p>Bound to count state: <span $bind="count">0</span></p>
+      <x-signal bind:value="#count">
+        <input type="number" value="0" />
+      </x-signal>
+      <p>Bound to count state: <x-signal bind="#count">0</x-signal></p>
     </bound-values>
     <script type="module">
-      import { Stellar } from 'https://www.unpkg.com/stellar-element@0.3.0/build/index.js';
-      class BoundValues extends Stellar {
-        increment = () => this.count++;
+      import { component, signal } from "../../src/index.ts";
+      const count = signal("bound-values #count");
+      function increment() {
+        count.state = count.state + 1;
       }
-      customElements.define('bound-values', BoundValues);
+      component("bound-values", [increment]);
     </script>
   </body>
 </html>
