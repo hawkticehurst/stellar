@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hello World</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: system-ui, sans-serif;
+        font-weight: 500;
+        display: grid;
+        place-content: center;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+      }
+      todo-list-local {
+        display: flex;
+        flex-direction: column;
+      }
+      todo-list-local label {
+        margin-bottom: 0.5rem;
+      }
+      todo-list-local input {
+        font-family: inherit;
+        font-size: inherit;
+        font-weight: inherit;
+        color: black;
+        background-color: #efefef;
+        border: 2px solid #000;
+        border-radius: 6px;
+        padding: 6px 10px;
+      }
+      button {
+        font-family: inherit;
+        font-size: inherit;
+        font-weight: inherit;
+        color: black;
+        background-color: #efefef;
+        border: 2px solid #000;
+        border-radius: 8px;
+        padding: 6px 10px;
+      }
+      button:hover {
+        cursor: pointer;
+        background-color: #e6e6e6;
+      }
+    </style>
+  </head>
+  <body>
+    <todo-list-local>
+      <label for="todo-input">Add todo:</label>
+      <div>
+        <input @keyup.enter="addTodo" id="todo-input" type="text" />
+        <button @click="addTodo">Add</button>
+        <button @click="clearAll">Clear all</button>
+      </div>
+      <!-- To make todo list use local storage just use the `local` flag -->
+      <x-signal local="todos" state="['Get groceries']" render="html"></x-signal>
+    </todo-list-local>
+    <script type="module">
+      import { component, signal } from "../../src/index.ts";
+      
+      const input = document.querySelector("todo-list-local input");
+      const todos = signal("todo-list-local");
+      todos.render = (state) => {
+        return `<ul>
+          ${state.map((todo) => `<li>${todo}</li>`).join('')}
+        </ul>`;
+      };
+      function addTodo() {
+        if (input.value.length > 0) {
+          todos.state = [...todos.state, input.value];
+          input.value = '';
+        }
+      }
+      function clearAll() {
+        todos.state = [];
+      }
+      component("todo-list-local", [addTodo, clearAll]);
+    </script>
+  </body>
+</html>

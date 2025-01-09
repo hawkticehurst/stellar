@@ -5,6 +5,7 @@ import { coerce } from './utils/coerce.js';
 export class SignalElement<T> extends HTMLElement {
 	signal: Signal.State<T> | Signal.Computed<T>;
 	isBound: boolean;
+	isLocalStorage: boolean;
 	isHTML: boolean;
 	stateAttr: string | null;
 	targetId: string | null;
@@ -16,6 +17,7 @@ export class SignalElement<T> extends HTMLElement {
 	constructor() {
 		super();
 		this.isBound = this.getAttribute('bind:value') !== null;
+		this.isLocalStorage = this.getAttribute('local') !== null;
 		this.isHTML = this.getAttribute('render') === 'html';
 		this.stateAttr = this.getAttribute('state');
 		this.mutation = (state) => state;
@@ -34,6 +36,16 @@ export class SignalElement<T> extends HTMLElement {
 				// Default to initializing with text content
 				const content = this.textContent;
 				initial = coerce(content);
+			}
+			// Attempt to override initial value if local storage flag is set
+			if (this.isLocalStorage) {
+				const item = this.getAttribute('local');
+				if (item) {
+					const value = localStorage.getItem(item);
+					if (value) {
+						initial = coerce(value);
+					}
+				}
 			}
 			// Initialize signal
 			this.signal = new Signal.State(initial);
@@ -82,19 +94,33 @@ export class SignalElement<T> extends HTMLElement {
 	set state(v: T) { 
 		if (this.signal instanceof Signal.State) {
 			this.signal.set(v);
+			if (this.isLocalStorage) {
+				const item = this.getAttribute('local');
+				if (!item) {
+					return;
+				}
+				if (Array.isArray(v) || typeof v === 'object') {
+					localStorage.setItem(item, JSON.stringify(v));
+					return;
+				}
+				localStorage.setItem(item, `${v}`);
+			}
 		} else {
 			throw new Error('Cannot set value on a computed signal');
 		}
 	}
+	// Define a custom renderer for the state
 	set render(callback: (state: T) => unknown) {
 		this.mutation = callback;
 		this.#render();
 	}
+	// Convert signal element to a computed signal
 	set computed(callback: () => T) {
 		this.cleanup();
 		this.signal = new Signal.Computed<T>(callback);
 		this.cleanup = effect(() => this.#render());
 	}
+	// Use an external store
 	set store(signal: Signal.State<T>) {
 		this.cleanup();
 		this.signal = signal;
