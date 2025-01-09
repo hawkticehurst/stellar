@@ -2,16 +2,18 @@ import { Stellar } from "./stellar.js";
 import { SignalElement } from "./signal.js";
 import { isCustomElement } from "./utils/helpers.js";
 
-export function component(name: string, methods: ((event: Event, ...args: any[]) => unknown)[]) {
+export function component(name: string, methods?: ((event: Event, ...args: any[]) => unknown)[]) {
 	customElements.define(name, class extends Stellar {
 		onMount?(): void;
 		onDestroy?(): void;
 		constructor() {
 			super();
-			for (const fn of methods) {
-				const fnName = fn.name;
-				if (fnName) {
-					(this as any)[fnName] = fn;
+			if (methods) {
+				for (const fn of methods) {
+					const fnName = fn.name;
+					if (fnName) {
+						(this as any)[fnName] = fn;
+					}
 				}
 			}
 		}
