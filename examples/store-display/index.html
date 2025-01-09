@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Store Display</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: system-ui, sans-serif;
+        font-weight: 500;
+        display: grid;
+        place-content: center;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+      }
+      store-display > p {
+				font-size: 1.5rem;
+				margin-bottom: 2rem;
+				text-align: center;
+      }
+			.container {
+				display: flex;
+				gap: 20px;
+			}
+			component-one,
+			component-two {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+      button {
+        font-family: inherit;
+        font-size: inherit;
+        font-weight: inherit;
+        color: black;
+        background-color: #efefef;
+        border: 2px solid #000;
+        border-radius: 8px;
+        padding: 6px 10px;
+      }
+      button:hover,
+      button:active {
+        cursor: pointer;
+        background-color: #e6e6e6;
+      }
+      input {
+        font-family: inherit;
+        font-size: inherit;
+        font-weight: inherit;
+        color: black;
+        background-color: #efefef;
+        border: 2px solid #000;
+        border-radius: 6px;
+        padding: 6px 10px;
+        width: 60%;
+      }
+    </style>
+  </head>
+  <body>
+		<store-display>
+			<p>Value of store is: <x-signal>42</x-signal></p>
+    </store-display>
+		<section class="container">
+			<component-one>
+				<input @keyup.enter="updateOne" type="number">
+				<button @click="updateOne">
+					Update store from Component One
+				</button>
+			</component-one>
+			<component-two>
+				<input @keyup.enter="updateTwo" type="number">
+				<button @click="updateTwo">
+					Update store from Component Two
+				</button>
+			</component-two>
+		</section>
+    <script type="module">
+      import { component, signal } from "../../src/index.ts";
+			import { counter } from "./store.js";
+
+      const display = signal("store-display");
+      display.store = counter;
+      component("store-display");
+
+			const inputOne = document.querySelector("component-one input");
+			function updateOne() {
+				counter.set(inputOne.value);
+				inputOne.value = "";
+			}
+			component("component-one", [updateOne]);
+
+			const inputTwo = document.querySelector("component-two input");
+			function updateTwo() {
+				counter.set(inputTwo.value);
+				inputTwo.value = "";
+			}
+			component("component-two", [updateTwo]);
+    </script>
+  </body>
+</html>
