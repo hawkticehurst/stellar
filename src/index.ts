@@ -2,10 +2,13 @@ import { Stellar } from "./stellar.js";
 import { SignalElement } from "./signal.js";
 import { isCustomElement } from "./utils/helpers.js";
 
-export function component(name: string, methods?: ((event: Event, ...args: any[]) => unknown)[]) {
+export function component(name: string, methods?: ((event: Event, ...args: any[]) => unknown)[], attributes?: string[]) {
 	customElements.define(name, class extends Stellar {
 		onMount?(): void;
 		onDestroy?(): void;
+		onAttributeChange?(attribute: any, previousValue: any, currentValue: any): void;
+		onAdopted?(): void;
+		static observedAttributes = attributes ? attributes : [];
 		constructor() {
 			super();
 			if (methods) {
@@ -18,7 +21,6 @@ export function component(name: string, methods?: ((event: Event, ...args: any[]
 			}
 		}
 		connectedCallback() {
-			// Call method onMount if it exists
 			if (this.onMount) {
 				this.onMount();
 			}
@@ -26,6 +28,16 @@ export function component(name: string, methods?: ((event: Event, ...args: any[]
 		disconnectedCallback() {
 			if (this.onDestroy) {
 				this.onDestroy();
+			}
+		}
+		attributeChangedCallback(attribute: any, previousValue: any, currentValue: any) {
+			if (this.onAttributeChange) {
+				this.onAttributeChange(attribute, previousValue, currentValue);
+			}
+		}
+		adoptedCallback() {
+			if (this.onAdopted) {
+				this.onAdopted();
 			}
 		}
 	});
