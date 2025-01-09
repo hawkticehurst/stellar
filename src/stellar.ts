@@ -1,7 +1,6 @@
 import { eventModifiers, systemModifiers, keyModifiers } from "./utils/modifiers.js";
 import type { EventModifier } from "./utils/modifiers.js";
 import { isCustomElement, removeAttribute } from "./utils/helpers.js";
-import { SignalElement } from "./signal.js";
 
 export class Stellar extends HTMLElement {
 	private _tracked: { elem: HTMLElement; event: string; modifiers: string[]; options: EventModifier; fn: EventListener }[];
