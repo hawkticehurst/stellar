@@ -3,10 +3,10 @@ import type { EventModifier } from "./utils/modifiers.js";
 import { isCustomElement, removeAttribute } from "./utils/helpers.js";
 
 export class Stellar extends HTMLElement {
-	private _tracked: { elem: HTMLElement; event: string; modifiers: string[]; options: EventModifier; fn: EventListener }[];
+	#tracked: { elem: HTMLElement; event: string; modifiers: string[]; options: EventModifier; fn: EventListener }[];
 	constructor() {
 		super();
-		this._tracked = [];
+		this.#tracked = [];
 		let node;
 		const changes: (() => void)[] = [];
 		const nestedCustomElements: HTMLElement[] = [];
@@ -37,7 +37,7 @@ export class Stellar extends HTMLElement {
 			if (!node || !(node instanceof HTMLElement)) return;
 			for (const attr of node.attributes) {
 				if (attr.name.startsWith('@')) {
-					changes.push(() => this.setEventHandler(attr));
+					changes.push(() => this.#setEventHandler(attr));
 				}
 			}
 		}
@@ -45,7 +45,7 @@ export class Stellar extends HTMLElement {
 			change();
 		}
 		// Attach event listeners
-		for (const { elem, event, modifiers, options, fn } of this._tracked) {
+		for (const { elem, event, modifiers, options, fn } of this.#tracked) {
 			if (modifiers.length > 0) {
 				if (event === 'keydown' || event === 'keyup') {
 					elem?.addEventListener(event, (e) => {
@@ -93,7 +93,7 @@ export class Stellar extends HTMLElement {
 			}
 		}
 	}
-	private setEventHandler(attr: Attr) {
+	#setEventHandler(attr: Attr) {
 		const elem = attr.ownerElement as HTMLElement;
 		const { name: event, value: method } = attr;
 		let eventName = event.slice(1);
@@ -115,7 +115,7 @@ export class Stellar extends HTMLElement {
 				}
 			});
 		}
-		this._tracked.push({
+		this.#tracked.push({
 			elem: elem,
 			event: eventName,
 			modifiers: modifiers,
