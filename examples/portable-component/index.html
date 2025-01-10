@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Portable Components</title>
+	<style>
+		* {
+			box-sizing: border-box;
+		}
+		body {
+			font-family: system-ui, sans-serif;
+			font-weight: 500;
+			display: grid;
+			place-content: center;
+			height: 100vh;
+			margin: 0;
+			padding: 0;
+		}
+		section {
+			display: flex;
+			gap: 1rem;
+			align-items: center;
+		}
+	</style>
+</head>
+<body>
+	<section>
+		<link-button></link-button>
+		<link-button variant="secondary"></link-button>
+		<link-button pill></link-button>
+		<link-button size="large"></link-button>
+	</section>
+	<script type="module">
+		import { LinkButton } from './link-button.ts';
+		LinkButton.define();
+	</script>
+</body>
+</html>

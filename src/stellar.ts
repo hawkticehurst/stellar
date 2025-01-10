@@ -4,8 +4,12 @@ import { isCustomElement, removeAttribute } from "./utils/helpers.js";
 
 export class Stellar extends HTMLElement {
 	#tracked: { elem: HTMLElement; event: string; modifiers: string[]; options: EventModifier; fn: EventListener }[];
-	constructor() {
+	constructor(render?: () => string) {
 		super();
+		// If portable component, immediately set inner HTML
+		if (render) {
+			this.setHTMLUnsafe(render());
+		}
 		this.#tracked = [];
 		let node;
 		const changes: (() => void)[] = [];
