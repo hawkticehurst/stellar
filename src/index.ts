@@ -4,6 +4,7 @@ import { isCustomElement } from "./utils/helpers.js";
 
 export function component(name: string, methods?: ((event: Event, ...args: any[]) => unknown)[], attributes?: string[]) {
 	customElements.define(name, class extends Stellar {
+		onCreate?(): void;
 		onMount?(): void;
 		onDestroy?(): void;
 		onAttributeChange?(attribute: any, previousValue: any, currentValue: any): void;
@@ -11,6 +12,9 @@ export function component(name: string, methods?: ((event: Event, ...args: any[]
 		static observedAttributes = attributes ? attributes : [];
 		constructor() {
 			super();
+			if (this.onCreate) {
+				this.onCreate();
+			}
 			if (methods) {
 				for (const fn of methods) {
 					const fnName = fn.name;
@@ -44,7 +48,7 @@ export function component(name: string, methods?: ((event: Event, ...args: any[]
 }
 
 export function signal<T>(query: string, options?: {
-	castSignal?: (state: string | number) => T;
+	type?: (state: string | number) => T;
 }): SignalElement<T> {
 	const [elem, signalName] = query.split(" ");
 	if (isCustomElement(elem)) {
@@ -54,7 +58,7 @@ export function signal<T>(query: string, options?: {
 			if (!customElements.get("x-signal")) {
 				customElements.define("x-signal", SignalElement);
 			}
-			if (options && options.castSignal) {
+			if (options && options.type) {
 				// TODO: Implement coerce overrides in SignalElement
 			}
 			return node as SignalElement<T>;
