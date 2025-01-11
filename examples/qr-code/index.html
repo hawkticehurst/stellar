@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QR Code</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: system-ui, sans-serif;
+        font-weight: 500;
+        display: grid;
+        place-content: center;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+      }
+      qr-code {
+        display: flex;
+        flex-direction: column;
+      }
+      qr-code > label {
+        margin-bottom: 0.5rem;
+      }
+      qr-code input {
+        font-family: inherit;
+        font-size: inherit;
+        font-weight: inherit;
+        color: black;
+        background-color: #efefef;
+        border: 2px solid #000;
+        border-radius: 6px;
+        padding: 6px 10px;
+      }
+      qr-code > #qr-label {
+        margin-bottom: 0.5rem;
+      }
+    </style>
+  </head>
+  <body>
+    <qr-code>
+      <label for="name">Enter a URL:</label>
+			<x-signal bind:value>
+				<input id="name" type="text" value="https://example.com" />
+			</x-signal>
+      <p id="qr-label">QR Code:</p>
+      <canvas></canvas>
+    </qr-code>
+    <script type="module">
+      import { component, signal, effect } from "../../src/index.ts";
+			import { qr } from "headless-qr";
+      
+			const text = signal("qr-code");
+      const canvas = document.querySelector("qr-code canvas");
+
+			effect(() => {
+				const modules = qr(text.state);
+				const ctx = canvas.getContext('2d');
+
+				const scale = 10; // scale factor to increase resolution
+				canvas.width = canvas.height = modules.length * scale;
+				ctx.scale(scale, scale);
+				ctx.fillStyle = 'black';
+
+				modules.forEach((row, y) => {
+					row.forEach((cell, x) => {
+						if (cell) {
+							ctx.fillRect(x, y, 1, 1);
+						}
+					});
+				});
+			});
+
+      component("qr-code");
+    </script>
+  </body>
+</html>
