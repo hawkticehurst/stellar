@@ -5,7 +5,7 @@ import { coerce } from './utils/coerce.js';
 export class SignalElement<T> extends HTMLElement {
 	signal: Signal.State<T> | Signal.Computed<T>;
 	isBound: boolean;
-	isLocalStorage: boolean;
+	hasLocalStorage: boolean;
 	isHTML: boolean;
 	stateAttr: string | null;
 	targetId: string | null;
@@ -17,7 +17,7 @@ export class SignalElement<T> extends HTMLElement {
 	constructor() {
 		super();
 		this.isBound = this.getAttribute('bind:value') === "";
-		this.isLocalStorage = this.getAttribute('local') !== null;
+		this.hasLocalStorage = this.getAttribute('local') !== null;
 		this.isHTML = this.getAttribute('render') === 'html';
 		this.stateAttr = this.getAttribute('state');
 		this.mutation = (state) => state;
@@ -45,7 +45,7 @@ export class SignalElement<T> extends HTMLElement {
 				initial = coerce(content);
 			}
 			// Attempt to override initial value if local storage flag is set
-			if (this.isLocalStorage) {
+			if (this.hasLocalStorage) {
 				const item = this.getAttribute('local');
 				if (item) {
 					const value = localStorage.getItem(item);
@@ -85,21 +85,20 @@ export class SignalElement<T> extends HTMLElement {
 		return this.signal.get();
 	}
 	set state(v: T) { 
-		if (this.signal instanceof Signal.State) {
-			this.signal.set(v);
-			if (this.isLocalStorage) {
-				const item = this.getAttribute('local');
-				if (!item) {
-					return;
-				}
-				if (Array.isArray(v) || typeof v === 'object') {
-					localStorage.setItem(item, JSON.stringify(v));
-					return;
-				}
-				localStorage.setItem(item, `${v}`);
+		if (!(this.signal instanceof Signal.State)) {
+			throw new Error('Cannot set value on a computed signal.');
+		}
+		this.signal.set(v);
+		if (this.hasLocalStorage) {
+			const item = this.getAttribute('local');
+			if (!item) {
+				return;
 			}
-		} else {
-			throw new Error('Cannot set value on a computed signal');
+			if (Array.isArray(v) || typeof v === 'object') {
+				localStorage.setItem(item, JSON.stringify(v));
+				return;
+			}
+			localStorage.setItem(item, `${v}`);
 		}
 	}
 	// Define a custom renderer for the state
