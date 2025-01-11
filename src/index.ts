@@ -1,6 +1,9 @@
 import { Stellar } from "./stellar.js";
 import { SignalElement } from "./signal.js";
 import { isCustomElement } from "./utils/helpers.js";
+import { effect } from "./utils/effect.js";
+
+export { effect };
 
 export function component(name: string, methods?: ((event: Event, ...args: any[]) => unknown)[], attributes?: string[]) {
 	customElements.define(name, class extends Stellar {
