@@ -16,14 +16,21 @@ export class SignalElement<T> extends HTMLElement {
 
 	constructor() {
 		super();
-		this.isBound = this.getAttribute('bind:value') !== null;
+		this.isBound = this.getAttribute('bind:value') === "";
 		this.isLocalStorage = this.getAttribute('local') !== null;
 		this.isHTML = this.getAttribute('render') === 'html';
 		this.stateAttr = this.getAttribute('state');
 		this.mutation = (state) => state;
 		if (this.isBound) {
-			this.targetId = this.getAttribute('bind:value');
+			if (this.children.length !== 1) {
+				throw new Error('Signal must contain a single child element when using bind directive.');
+			}
 			this.boundElem = this.children[0] as HTMLInputElement | HTMLButtonElement | HTMLOptionElement | HTMLMeterElement | HTMLProgressElement;
+			this.boundElem.addEventListener('input', (e) => {
+				this.state = this.boundElem?.value as unknown as T;
+			});
+			this.signal = new Signal.State(this.boundElem.value as unknown as T);
+			this.cleanup = effect(() => this.#render());
 		} else {
 			let initial;
 			if (this.stateAttr) {
@@ -53,38 +60,24 @@ export class SignalElement<T> extends HTMLElement {
 		}
 	}
 	connectedCallback() {
-		if (this.isBound && this.targetId && this.boundElem) {
-			this.targetElem = document.getElementById(this.targetId) as SignalElement<T>;
-			if (!this.targetElem) {
-				throw new Error(`Bind target element with id "${this.targetId}" not found.`);
-			}
-			this.boundElem.addEventListener('input', () => {
-				if (this.targetElem && this.boundElem) {
-					this.targetElem.state = coerce(this.boundElem.value);
-				}
-			});
-		} else {
-			this.#render();
-		}
+		this.#render();
 	}
 	disconnectedCallback() {
-		if (this.isBound && this.boundElem) {
-			this.boundElem.removeEventListener('input', () => {
-				if (this.targetElem && this.boundElem) {
-					this.targetElem.state = coerce(this.boundElem.value);
-				}
-			});
-		} else {
-			this.cleanup();
-		}
+		this.cleanup();
 	}
 	#render() {
 		if (this.signal) {
-			const value = this.mutation(this.signal.get());
-			if (this.isHTML) {
-				this.setHTMLUnsafe(`${value}`);
+			if (this.isBound) {
+				if (this.boundElem) {
+					this.boundElem.value = `${this.signal.get()}`;
+				}
 			} else {
-				this.textContent = `${value}`;
+				const value = this.mutation(this.signal.get());
+				if (this.isHTML) {
+					this.setHTMLUnsafe(`${value}`);
+				} else {
+					this.textContent = `${value}`;
+				}
 			}
 		}
 	}
@@ -111,6 +104,9 @@ export class SignalElement<T> extends HTMLElement {
 	}
 	// Define a custom renderer for the state
 	set render(callback: (state: T) => unknown) {
+		if (this.isBound) {
+			throw new Error('Cannot set a custom renderer on a bound signal.');
+		}
 		this.mutation = callback;
 		this.#render();
 	}
