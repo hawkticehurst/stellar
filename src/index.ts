@@ -11,16 +11,13 @@ export function component(name: string, methods?: ((event: Event, ...args: any[]
 	}
 	customElements.define(name, class extends Stellar {
 		onCreate?(): void;
-		onMount?(): void;
-		onDestroy?(): void;
+		onConnected?(): void;
+		onDisconnected?(): void;
 		onAttributeChange?(attribute: any, previousValue: any, currentValue: any): void;
 		onAdopted?(): void;
 		static observedAttributes = attributes ? attributes : [];
 		constructor() {
 			super();
-			if (this.onCreate) {
-				this.onCreate();
-			}
 			if (methods) {
 				for (const fn of methods) {
 					const fnName = fn.name;
@@ -29,15 +26,18 @@ export function component(name: string, methods?: ((event: Event, ...args: any[]
 					}
 				}
 			}
+			if (this.onCreate) {
+				this.onCreate();
+			}
 		}
 		connectedCallback() {
-			if (this.onMount) {
-				this.onMount();
+			if (this.onConnected) {
+				this.onConnected();
 			}
 		}
 		disconnectedCallback() {
-			if (this.onDestroy) {
-				this.onDestroy();
+			if (this.onDisconnected) {
+				this.onDisconnected();
 			}
 		}
 		attributeChangedCallback(attribute: any, previousValue: any, currentValue: any) {
@@ -85,8 +85,8 @@ export function portableComponent(name: string, render: () => string, methods?: 
 			customElements.define(this.tagName, this);
 		}
 		onCreate?(): void;
-		onMount?(): void;
-		onDestroy?(): void;
+		onConnected?(): void;
+		onDisconnected?(): void;
 		onAttributeChange?(attribute: any, previousValue: any, currentValue: any): void;
 		onAdopted?(): void;
 		constructor() {
@@ -104,13 +104,13 @@ export function portableComponent(name: string, render: () => string, methods?: 
 			}
 		}
 		connectedCallback() {
-			if (this.onMount) {
-				this.onMount();
+			if (this.onConnected) {
+				this.onConnected();
 			}
 		}
 		disconnectedCallback() {
-			if (this.onDestroy) {
-				this.onDestroy();
+			if (this.onDisconnected) {
+				this.onDisconnected();
 			}
 		}
 		attributeChangedCallback(attribute: any, previousValue: any, currentValue: any) {

@@ -57,16 +57,19 @@
     <script type="module">
       import { component, signal } from "../../src/index.ts";
 
-      function onMount() {
-				console.log("I've been mounted!");
+			function onCreate() {
+				console.log("This is the first time the component is created. It will only run once.");
 			}
-			function onDestroy() {
-				console.log("I'm about to be destroyed!");
+      function onConnected() {
+				console.log("I've been connected to the DOM!");
+			}
+			function onDisconnected() {
+				console.log("I'm about to be disconnected from the DOM!");
 			}
 			function onAttributeChange(attribute, previousValue, currentValue) {
 				console.log(`Attribute '${attribute}' changed from '${previousValue}' to '${currentValue}'.`);
 			}
-      component("my-component", [onMount, onDestroy, onAttributeChange], ["greeting"]);
+      component("my-component", [onCreate, onConnected, onDisconnected, onAttributeChange], ["greeting"]);
 
 			const myComponent = document.querySelector("my-component");
 			function destroy() {
