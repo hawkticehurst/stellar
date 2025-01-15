@@ -68,11 +68,13 @@
       
       const input = document.querySelector("todo-list-local input");
       const todos = signal("todo-list-local");
+
       todos.render = (state) => {
         return `<ul>
           ${state.map((todo) => `<li>${todo}</li>`).join('')}
         </ul>`;
       };
+
       function addTodo() {
         if (input.value.length > 0) {
           todos.state = [...todos.state, input.value];
@@ -82,6 +84,7 @@
       function clearAll() {
         todos.state = [];
       }
+      
       component("todo-list-local", [addTodo, clearAll]);
     </script>
   </body>

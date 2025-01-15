@@ -85,9 +85,11 @@
 
       const textarea = document.querySelector("markdown-editor textarea");
       const output = signal("markdown-editor");
+      
       function updateEditor() {
         output.state = marked(textarea.value ?? "");
       }
+
       component("markdown-editor", [updateEditor]);
     </script>
   </body>

@@ -45,9 +45,11 @@
       import { component, signal } from "../../src/index.ts";
 
       const count = signal("counter-button");
+      
       function increment() {
         count.state = count.state + 1;
       }
+
       component("counter-button", [increment]);
     </script>
   </body>

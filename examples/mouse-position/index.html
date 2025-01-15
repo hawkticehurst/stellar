@@ -43,12 +43,15 @@
 
       const x = signal("mouse-position #x");
       const y = signal("mouse-position #y");
+
       const container = document.querySelector("mouse-position");
       const clientRect = container.getBoundingClientRect();
+
       function setPosition(event) {
         x.state = event.clientX - Number(clientRect.left.toFixed(0));
         y.state = event.clientY - Number(clientRect.top.toFixed(0));
       }
+      
       component("mouse-position", [setPosition]);
     </script>
   </body>

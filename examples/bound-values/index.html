@@ -71,6 +71,7 @@
       import { component, signal } from "../../src/index.ts";
 
       const count = signal("bound-values #count");
+      
       function increment() {
         count.state = count.state + 1;
       }

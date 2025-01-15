@@ -47,10 +47,13 @@
       
       const count = signal("derived-state #count");
       const double = signal("derived-state #double");
+
+      double.computed = () => count.state * 2;
+
       function increment() {
         count.state = count.state + 1;
       }
-      double.computed = () => count.state * 2;
+      
       component("derived-state", [increment]);
     </script>
   </body>

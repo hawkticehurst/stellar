@@ -54,11 +54,14 @@
 
       const numbers = signal("add-numbers #numbers");
       const sum = signal("add-numbers #sum");
+
       numbers.render = (state) => state.join(" + ");
+
       function addNumber() {
         numbers.state = [...numbers.state, numbers.state.length + 1];
         sum.state = numbers.state.reduce((sum, current) => sum + current, 0);
       }
+      
       component("add-numbers", [addNumber]);
     </script>
   </body>
