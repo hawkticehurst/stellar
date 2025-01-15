@@ -94,24 +94,28 @@
   <body>
     <slider-math>
       <label>
-        <input type="number" $bind:value="a" value="1" min="0" max="10" />
-        <input type="range" $bind:value="a" value="1" min="0" max="10" />
+        <input bind:value="#a" type="number" value="1" min="0" max="10" />
+        <input bind:value="#a" type="range" value="1" min="0" max="10" />
       </label>
       <label>
-        <input type="number" $bind:value="b" value="2" min="0" max="10" />
-        <input type="range" $bind:value="b" value="2" min="0" max="10" />
+        <input bind:value="#b" type="number" value="2" min="0" max="10" />
+        <input bind:value="#b" type="range" value="2" min="0" max="10" />
       </label>
       <p>
-        <span $state="a">1</span> + <span $state="b">2</span> =
-        <span $derive="sum(a,b)">3</span>
+        <x-signal id="a">1</x-signal> + <x-signal id="b">2</x-signal> =
+        <x-signal id="sum">3</x-signal>
       </p>
     </slider-math>
     <script type="module">
-      import { Stellar } from 'https://www.unpkg.com/stellar-element@0.3.0/build/index.js';
-      class SliderMath extends Stellar {
-        sum = (a, b) => a + b;
-      }
-      customElements.define('slider-math', SliderMath);
+      import { component, signal } from "../../src/index.ts";
+
+      const a = signal("slider-math #a");
+      const b = signal("slider-math #b");
+      const sum = signal("slider-math #sum");
+
+      sum.computed = () => a.state + b.state;
+      
+      component("slider-math");
     </script>
   </body>
 </html>

@@ -61,19 +61,20 @@
         Clicked <x-signal id="count">0</x-signal> times
       </button>
       <button @click="increment">
-        Clicked <x-signal bind="#count">0</x-signal> times
+        Clicked <span bind="#count">0</span> times
       </button>
-      <x-signal bind:value="#count">
-        <input type="number" value="0" />
+      <input bind:value="#count" type="number" value="0" />
       </x-signal>
-      <p>Bound to count state: <x-signal bind="#count">0</x-signal></p>
+      <p>Bound to count state: <span bind="#count">0</span></p>
     </bound-values>
     <script type="module">
       import { component, signal } from "../../src/index.ts";
+
       const count = signal("bound-values #count");
       function increment() {
         count.state = count.state + 1;
       }
+
       component("bound-values", [increment]);
     </script>
   </body>

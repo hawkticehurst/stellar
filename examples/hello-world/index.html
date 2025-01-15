@@ -22,10 +22,10 @@
         display: flex;
         flex-direction: column;
       }
-      hello-world > label {
+      hello-world label {
         margin-bottom: 0.5rem;
       }
-      hello-world > input {
+      hello-world input {
         font-family: inherit;
         font-size: inherit;
         font-weight: inherit;
@@ -46,20 +46,14 @@
   </head>
   <body>
     <hello-world>
-      <label for="name">Enter name:</label>
-      <input @input="displayMessage" id="name" type="text" value="World" />
+      <label for="input">Enter name:</label>
+      <input id="input" bind:value="#name" type="text" value="World" />
       <p id="msg-label">Message:</p>
-      <p id="msg">Hello <x-signal>World</x-signal>!</p>
+      <p id="msg">Hello <x-signal id="name">World</x-signal>!</p>
     </hello-world>
     <script type="module">
-      import { component, signal } from "../../src/index.ts";
-      
-      const input = document.querySelector("hello-world input");
-      const name = signal("hello-world");
-      function displayMessage() {
-        name.state = input.value;
-      }
-      component("hello-world", [displayMessage]);
+      import { component } from "../../src/index.ts";
+      component("hello-world");
     </script>
   </body>
 </html>
