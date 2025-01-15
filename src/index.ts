@@ -6,6 +6,9 @@ import { effect } from "./utils/effect.js";
 export { effect };
 
 export function component(name: string, methods?: ((event: Event, ...args: any[]) => unknown)[], attributes?: string[]) {
+	if (!customElements.get("x-signal")) {
+		customElements.define("x-signal", SignalElement);
+	}
 	customElements.define(name, class extends Stellar {
 		onCreate?(): void;
 		onMount?(): void;
