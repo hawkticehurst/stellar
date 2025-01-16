@@ -17,6 +17,8 @@ type Bound = {
 export class SignalElement<T> extends HTMLElement {
 	signal: Signal.State<T> | Signal.Computed<T>;
 	isHTML: boolean;
+	trackedProperty: string | null;
+	trackedChild: HTMLElement | null;
 	stateAttr: string | null;
 	boundElements: Bound;
 	hasLocalStorage: boolean;
@@ -27,6 +29,13 @@ export class SignalElement<T> extends HTMLElement {
 		super();
 
 		this.isHTML = this.getAttribute('render') === 'html';
+		this.trackedProperty = this.getAttribute('track');
+		if (this.trackedProperty) {
+			const child = this.children[0];
+			if (child instanceof HTMLElement) {
+				this.trackedChild = child;
+			}
+		}
 		this.stateAttr = this.getAttribute('state');
 		this.mutation = (state) => state;
 		this.hasLocalStorage = this.getAttribute('local') !== null;
@@ -54,7 +63,18 @@ export class SignalElement<T> extends HTMLElement {
 		}
 
 		let initial;
-		if (this.stateAttr) {
+		if (this.trackedProperty === 'value') {
+			if (!(this.trackedChild instanceof HTMLInputElement)) {
+				throw new Error('Cannot track reactive value property on non-input element.');
+			}
+			initial = coerce(this.trackedChild.value);
+			this.trackedChild.addEventListener('input', () => {
+				const child = this.trackedChild;
+				if (child && child instanceof HTMLInputElement) {
+					this.state = coerce(child.value) as unknown as T;
+				}
+			});
+		} else if (this.stateAttr) {
 			// Always prefer using the `state` attribute if it exists
 			initial = coerce(this.stateAttr);
 		} else if (this.isHTML) {
@@ -87,6 +107,18 @@ export class SignalElement<T> extends HTMLElement {
 	disconnectedCallback() {
 		// Cleanup effect
 		this.cleanup();
+
+		// Remove tracked properties
+		if (this.trackedProperty === 'value') {
+			if (this.trackedChild instanceof HTMLInputElement) {
+				this.trackedChild.removeEventListener('input', () => {
+					const child = this.trackedChild;
+					if (child && child instanceof HTMLInputElement) {
+						this.state = coerce(child.value) as unknown as T;
+					}
+				});
+			}
+		}
 		
 		// Unbind element values from this signal
 		if (this.boundElements.value) {
@@ -102,7 +134,9 @@ export class SignalElement<T> extends HTMLElement {
 	#render() {
 		if (this.signal) {
 			const value = this.mutation(this.signal.get());
-			if (this.isHTML) {
+			if (this.trackedProperty === 'value' && this.trackedChild instanceof HTMLInputElement) {
+				this.trackedChild.value = `${value}`;
+			} else if (this.isHTML) {
 				this.setHTMLUnsafe(`${value}`);
 			} else {
 				this.textContent = `${value}`;
