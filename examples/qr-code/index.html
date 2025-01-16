@@ -43,8 +43,8 @@
   <body>
     <qr-code>
       <label for="name">Enter a URL:</label>
-			<x-signal bind:value>
-				<input id="name" type="text" value="https://example.com" />
+			<x-signal track="value">
+        <input id="name" type="text" value="https://example.com" />
 			</x-signal>
       <p id="qr-label">QR Code:</p>
       <canvas></canvas>

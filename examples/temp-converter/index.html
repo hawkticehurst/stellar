@@ -17,7 +17,7 @@
         margin: 0;
         padding: 0;
       }
-      temp-converter > input {
+      temp-converter input {
         font-family: inherit;
         font-size: inherit;
         font-weight: inherit;
@@ -32,25 +32,34 @@
   <body>
     <!-- https://eugenkiss.github.io/7guis/tasks/#temp -->
     <temp-converter>
-      <input type="number" @input="setFromC" $value="c" value="0" />
+      <x-signal id="c" track="value">
+        <input @input="setFromC" type="number" value="0" />
+      </x-signal>
       °C =
-      <input type="number" @input="setFromF" $value="f" value="32" /> °F
+      <x-signal id="f" track="value">
+        <input @input="setFromF" type="number" value="32" />
+      </x-signal>
+      °F
     </temp-converter>
     <script type="module">
-      import { Stellar } from 'https://www.unpkg.com/stellar-element@0.3.0/build/index.js';
-      class TempConverter extends Stellar {
-        setFromC = (event) => {
-          const value = event.target.value;
-          this.c = +value;
-          this.f = +(32 + (9 / 5) * this.c).toFixed(1);
-        };
-        setFromF = (event) => {
-          const value = event.target.value;
-          this.f = +value;
-          this.c = +((5 / 9) * (this.f - 32)).toFixed(1);
-        };
+      import { component, signal, effect } from "../../src/index.ts";
+
+      const c = signal("temp-converter #c");
+      const f = signal("temp-converter #f");
+
+      function setFromC(event) {
+        const value = event.target.value;
+        c.state = +value;
+        f.state = +(32 + (9 / 5) * c.state).toFixed(1);
       }
-      customElements.define('temp-converter', TempConverter);
+
+      function setFromF(event) {
+        const value = event.target.value;
+        f.state = +value;
+        c.state = +((5 / 9) * (f.state - 32)).toFixed(1);
+      }
+
+      component('temp-converter', [ setFromC, setFromF ]);
     </script>
   </body>
 </html>
