@@ -4,11 +4,28 @@ import { isCustomElement, removeAttribute } from "./utils/helpers.js";
 
 export class Stellar extends HTMLElement {
 	#tracked: { elem: HTMLElement; event: string; modifiers: string[]; options: EventModifier; fn: EventListener }[];
-	constructor(render?: () => string) {
+	#parent: Stellar | null = null;
+	#props: any;
+	constructor(render?: (props?: any) => any) {
 		super();
 		// If portable component, immediately set inner HTML
 		if (render) {
-			this.setHTMLUnsafe(render());
+			const value = this.getAttribute('props');
+			if (value) {
+				let props;
+				try {
+					const parsed = JSON.parse(value);
+					if (Array.isArray(parsed)) props = parsed;
+					if (typeof parsed === 'object') props = parsed;
+				} catch (e) {
+					console.error(e);
+					// Not valid JSON, return the original value
+				}				
+				this.setHTMLUnsafe(render(props));
+			} else {
+				this.setHTMLUnsafe(render());
+			}
+			// this.appendChild(render());
 		}
 		this.#tracked = [];
 		let node;
@@ -20,8 +37,8 @@ export class Stellar extends HTMLElement {
 				return NodeFilter.FILTER_REJECT;
 			}
 			// Check if node is a nested custom element
-			if (isCustomElement(node.tagName) && node.tagName !== this.tagName && node.tagName !== "X-SIGNAL") {        
-				nestedCustomElements.push(node);
+			if (isCustomElement(node.tagName) && node.tagName !== this.tagName && node.tagName !== "X-SIGNAL") {   
+				nestedCustomElements.push(node);				
 				return NodeFilter.FILTER_REJECT;
 			}
 			// Check if node is a child of a nested custom element
@@ -96,6 +113,25 @@ export class Stellar extends HTMLElement {
 				});
 			}
 		}
+		for (const nested of nestedCustomElements) {
+			// Todo: What if the nested custom element is not a Stellar component?
+			(nested as Stellar).parent = this;
+		}
+	}
+	set parent(parent: Stellar) {
+		this.#parent = parent;
+	}
+	get parent(): Stellar {
+		if (!this.#parent) {
+			throw new Error('Parent not set');
+		}
+		return this.#parent;
+	}
+	set props(props: any) {
+		this.#props = props;
+	}
+	get props(): any {
+		return this.#props;
 	}
 	#setEventHandler(attr: Attr) {
 		const elem = attr.ownerElement as HTMLElement;
@@ -118,7 +154,7 @@ export class Stellar extends HTMLElement {
 					throw new Error(`Invalid Stellar event modifier: ${mod}`);
 				}
 			});
-		}
+		}		
 		this.#tracked.push({
 			elem: elem,
 			event: eventName,
